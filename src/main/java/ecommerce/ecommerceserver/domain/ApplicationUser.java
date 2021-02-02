@@ -1,11 +1,20 @@
 package ecommerce.ecommerceserver.domain;
 
+import lombok.*;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
+@Getter
+@Setter
+@RequiredArgsConstructor
+@AllArgsConstructor
 @Entity
+@Builder
 public class ApplicationUser {
 
     @Id
@@ -30,4 +39,14 @@ public class ApplicationUser {
 
     @NotBlank(message = "Phone number field should not be blank")
     private Long userPhoneNumber;
+
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    List<Comment> userCommentList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    List<Book> favoriteBookList = new ArrayList<>();
+
+    @OneToOne
+    @JoinColumn(name = "shopping_cart_id")
+    ShoppingCart shoppingCart;
 }

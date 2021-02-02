@@ -1,5 +1,8 @@
 package ecommerce.ecommerceserver.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
+
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
@@ -7,7 +10,12 @@ import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.UUID;
 
+@Getter
+@Setter
+@RequiredArgsConstructor
+@AllArgsConstructor
 @Entity
+@Builder
 public class Book {
 
     @Id
@@ -33,4 +41,9 @@ public class Book {
     @Lob
     @NotNull(message = "Book image should not be blank")
     private String bookThumbnail;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "application_user_id")
+    private ApplicationUser user;
 }
