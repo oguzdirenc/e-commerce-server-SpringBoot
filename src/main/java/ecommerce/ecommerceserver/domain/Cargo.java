@@ -3,10 +3,7 @@ package ecommerce.ecommerceserver.domain;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.Min;
 import java.util.Date;
@@ -29,5 +26,8 @@ public class Cargo {
 
     @Future(message = "Please enter a valid delivery time")
     private Date cargoDeliveryTime;
+
+    @OneToOne(mappedBy = "cargo")
+    BookOrder bookOrder;
 
 }

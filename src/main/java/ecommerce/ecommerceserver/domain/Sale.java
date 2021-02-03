@@ -2,11 +2,10 @@ package ecommerce.ecommerceserver.domain;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.Min;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -23,4 +22,7 @@ public class Sale {
 
     @Min(value = 0,message = "Discount rate cannot be negative")
     private Integer discountRate;
+
+    @OneToMany(mappedBy = "sale",cascade = CascadeType.ALL)
+    List<Book> bookSale = new ArrayList<>();
 }

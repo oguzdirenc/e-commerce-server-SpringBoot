@@ -28,7 +28,7 @@ public class ApplicationUser {
     @NotBlank(message = "Name field should not be blank")
     private String fullName;
 
-    @NotBlank(message = "Adress field should not be blank")
+    @NotBlank(message = "Address field should not be blank")
     private String userAddress;
 
     @NotBlank(message = "Password field should not be blank")
@@ -49,4 +49,5 @@ public class ApplicationUser {
     @OneToOne
     @JoinColumn(name = "shopping_cart_id")
     ShoppingCart shoppingCart;
+
 }

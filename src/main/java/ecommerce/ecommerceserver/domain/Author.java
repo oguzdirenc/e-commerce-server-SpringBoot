@@ -1,13 +1,13 @@
 package ecommerce.ecommerceserver.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jdk.nashorn.api.tree.SimpleTreeVisitorES6;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -30,5 +30,12 @@ public class Author {
 
     @NotBlank(message = "Author description field should not be blank")
     private String authorBio;
+
+    @ManyToMany
+    @JsonIgnore
+    @JoinTable(name = "author_book",
+    joinColumns = {@JoinColumn(name = "author_id")},
+    inverseJoinColumns = {@JoinColumn(name = "book_id")})
+    private List<Book> authorBooksList = new ArrayList<>();
 
 }

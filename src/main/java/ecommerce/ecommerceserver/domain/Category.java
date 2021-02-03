@@ -1,12 +1,12 @@
 package ecommerce.ecommerceserver.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -23,4 +23,11 @@ public class Category {
 
     @NotBlank(message = "Category description should not be blank")
     private String categoryDescription;
+
+    @ManyToMany
+    @JsonIgnore
+    @JoinTable(name = "book_category",
+            joinColumns={@JoinColumn(name = "category_id")},
+            inverseJoinColumns = {@JoinColumn(name = "book_id")})
+    private List<Book> bookCategoryList =new ArrayList<>();
 }

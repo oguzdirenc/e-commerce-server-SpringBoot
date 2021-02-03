@@ -25,4 +25,11 @@ public class BookOrder {
     @Min(value = 0,message = "Total price cannot be negative")
     private Float orderTotalPrice;
 
+    @OneToOne
+    @JoinColumn(name = "shopping_cart_id")
+    private ShoppingCart shoppingCart;
+
+    @OneToOne
+    @JoinColumn(name = "cargo_id")
+    private Cargo cargo;
 }

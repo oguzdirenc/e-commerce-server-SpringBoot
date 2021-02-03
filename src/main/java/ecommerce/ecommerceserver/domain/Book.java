@@ -8,6 +8,8 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -45,5 +47,20 @@ public class Book {
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "application_user_id")
-    private ApplicationUser user;
+    private ApplicationUser user ;
+
+    @OneToMany(mappedBy = "book",cascade = CascadeType.ALL)
+    private List<Comment> bookCommentList = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "bookCategoryList",cascade = CascadeType.ALL)
+    private List<Category> categoryBooksList =new ArrayList<>();
+
+    @ManyToMany(mappedBy = "authorBooksList",cascade = CascadeType.ALL)
+    private List<Author> bookAuthorsList =new ArrayList<>();
+
+    @ManyToMany(mappedBy = "shoppingCartBooks",cascade = CascadeType.ALL)
+    private List<ShoppingCart> bookShoppingCart = new ArrayList<>();
+
+    @ManyToOne
+    private Sale sale;
 }

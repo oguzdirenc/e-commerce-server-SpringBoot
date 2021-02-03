@@ -33,8 +33,12 @@ public class Comment {
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "application_user_id")
-    ApplicationUser user;
+    ApplicationUser user ;
 
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "book_id")
+    Book book;
 
 
 }
