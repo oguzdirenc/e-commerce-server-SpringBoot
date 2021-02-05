@@ -5,9 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Getter
 @Setter
@@ -44,7 +42,7 @@ public class ApplicationUser {
     List<Comment> userCommentList = new ArrayList<>();
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
-    List<Book> favoriteBookList = new ArrayList<>();
+    Set<Book> favoriteBookSet = new HashSet<>();
 
     @OneToOne
     @JoinColumn(name = "shopping_cart_id")
