@@ -20,6 +20,7 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID commentId;
 
+
     @NotBlank(message = "Comment title should not be blank")
     private String commentTitle;
 

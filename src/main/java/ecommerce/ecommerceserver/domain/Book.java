@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -23,6 +24,12 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID bookId;
+
+    private Integer totalRate=0;
+    private Integer commentCount=0;
+
+    @Digits(integer = 1,fraction = 1)
+    private Float bookRate=0.0F;
 
     @NotBlank(message = "Book name should not be blank")
     private String bookName;
