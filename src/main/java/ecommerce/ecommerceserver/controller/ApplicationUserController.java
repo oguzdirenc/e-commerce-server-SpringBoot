@@ -2,6 +2,7 @@ package ecommerce.ecommerceserver.controller;
 
 import ecommerce.ecommerceserver.domain.ApplicationUser;
 import ecommerce.ecommerceserver.services.ApplicationUserService;
+import ecommerce.ecommerceserver.services.MapValidationErrorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import java.util.UUID;
 public class ApplicationUserController {
 
     private  final ApplicationUserService applicationUserService;
+    private final MapValidationErrorService mapValidationErrorService;
 
     @GetMapping("/user/{id}")
     public ResponseEntity<ApplicationUser> name(@PathVariable String id){
