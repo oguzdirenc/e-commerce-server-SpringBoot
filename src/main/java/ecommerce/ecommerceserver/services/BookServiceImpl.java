@@ -20,6 +20,8 @@ public class BookServiceImpl implements BookService {
         return book;
     }
 
+
+
     @Override
     public void saveBookRate(Integer commentRate, UUID bookId) {
         Book book= getBookById(bookId);
@@ -36,5 +38,12 @@ public class BookServiceImpl implements BookService {
         bookRepository.delete(book);
 
         return "Book Deleted";
+    }
+
+    @Override
+    public Book saveBook(Book book) {
+
+        return bookRepository.save(book);
+
     }
 }
