@@ -14,6 +14,7 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin
 @RequestMapping("/api/book")
 public class BookController {
 
@@ -27,10 +28,21 @@ public class BookController {
         return new ResponseEntity<>(bookService.saveBook(book), HttpStatus.CREATED);
     }
 
-    @GetMapping("/{bookId}")
+    @GetMapping("/id/{bookId}")
     public ResponseEntity<?> getBook(@PathVariable UUID bookId){
 
 
         return new ResponseEntity<Book>(bookService.getBookById(bookId),HttpStatus.OK);
     }
+
+    @DeleteMapping("delete/{bookId}")
+    public ResponseEntity<?> deleteBook(@PathVariable UUID bookId){
+        return new ResponseEntity<>(bookService.deleteBookById(bookId),HttpStatus.OK);
+    }
+
+    @GetMapping("/name/{bookName}")
+    public ResponseEntity<?> getBookByName(@PathVariable String bookName){
+        return new ResponseEntity<>(bookService.getBookByName(bookName),HttpStatus.OK);
+    }
+
 }

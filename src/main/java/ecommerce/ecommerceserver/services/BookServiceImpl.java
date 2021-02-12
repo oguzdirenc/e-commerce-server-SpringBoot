@@ -46,4 +46,9 @@ public class BookServiceImpl implements BookService {
         return bookRepository.save(book);
 
     }
+
+    @Override
+    public Book getBookByName(String bookName) {
+        return bookRepository.findByBookName(bookName).orElseThrow(() -> new NotFoundException("Book not found"));
+    }
 }

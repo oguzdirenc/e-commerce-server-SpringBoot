@@ -17,6 +17,7 @@ public class ApplicationUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(columnDefinition = "BINARY(16)")
     private UUID applicationUserId;
 
     @NotBlank(message = "Username should not be blank")

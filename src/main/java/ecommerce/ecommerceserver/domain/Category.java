@@ -19,6 +19,7 @@ public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(columnDefinition = "BINARY(16)")
     private UUID categoryId;
 
     @NotBlank(message = "Category description should not be blank")

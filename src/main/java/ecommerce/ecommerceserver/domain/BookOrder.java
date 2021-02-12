@@ -17,6 +17,7 @@ public class BookOrder {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(columnDefinition = "BINARY(16)")
     private Long bookOrderId;
 
     @Min(value = 0,message = "Cargo price cannot be negative")

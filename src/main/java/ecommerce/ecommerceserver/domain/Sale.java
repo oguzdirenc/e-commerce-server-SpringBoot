@@ -18,6 +18,7 @@ public class Sale {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(columnDefinition = "BINARY(16)")
     private UUID saleId;
 
     @Min(value = 0,message = "Discount rate cannot be negative")

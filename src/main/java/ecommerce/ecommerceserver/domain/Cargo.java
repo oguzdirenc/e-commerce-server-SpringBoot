@@ -19,6 +19,7 @@ public class Cargo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(columnDefinition = "BINARY(16)")
     private UUID cargoId;
 
     @Min(value = 0,message = "Cargo price cannot be negative")

@@ -14,4 +14,5 @@ public interface BookService {
 
     Book saveBook(Book book);
 
+    Book getBookByName(String bookName);
 }

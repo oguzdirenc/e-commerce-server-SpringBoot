@@ -20,6 +20,7 @@ public class ShoppingCart {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(columnDefinition = "BINARY(16)")
     private UUID shoppingCartId;
 
     @Min(value = 0,message = "Total price cannot be negative")

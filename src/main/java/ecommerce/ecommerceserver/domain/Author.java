@@ -20,6 +20,7 @@ public class Author {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(columnDefinition = "BINARY(16)")
     private UUID authorId;
 
     @NotBlank(message = "Author name should not be blank")
