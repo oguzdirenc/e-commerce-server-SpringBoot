@@ -29,6 +29,7 @@ public class Book {
 
     private Integer totalRate=0;
     private Integer commentCount=0;
+    private Integer orderSize=1;
 
     @Digits(integer = 1,fraction = 1)
     private Float bookRate=0.0F;

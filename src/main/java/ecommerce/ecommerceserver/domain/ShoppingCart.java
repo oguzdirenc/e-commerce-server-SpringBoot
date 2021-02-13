@@ -6,6 +6,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -24,7 +25,7 @@ public class ShoppingCart {
     private UUID shoppingCartId;
 
     @Min(value = 0,message = "Total price cannot be negative")
-    private Float totalPriceShoppingCart;
+    private BigDecimal totalPriceShoppingCart;
 
     @OneToOne(mappedBy = "shoppingCart")
     private ApplicationUser user;

@@ -47,6 +47,6 @@ public class ApplicationUser {
 
     @OneToOne
     @JoinColumn(name = "shopping_cart_id")
-    ShoppingCart shoppingCart;
+    ShoppingCart shoppingCart = new ShoppingCart();
 
 }
