@@ -62,14 +62,26 @@ public class ShoppingCardServiceImpl implements ShoppingCardService {
     @Override
     public void setPrice(ShoppingCart shoppingCart) {
 
-        BigDecimal price = new BigDecimal(0);
 
         for(Book book : shoppingCart.getShoppingCartBooks()){
-            price = price.add((book.getBookPrice()).multiply(new BigDecimal(book.getOrderSize())));
+            shoppingCart.setTotalPriceShoppingCart( shoppingCart.getTotalPriceShoppingCart()
+                    .add((book.getBookPrice()).multiply(new BigDecimal(book.getOrderSize()))));
 
         }
 
-        shoppingCart.setTotalPriceShoppingCart(price);
+    }
+
+    @Override
+    public ShoppingCart saveShoppingCart(ShoppingCart shoppingCart) {
+         shoppingCartRepository.save(shoppingCart);
+         return shoppingCart;
+    }
+
+    @Override
+    public ShoppingCart getShoppingCartByName(String shoppingCartName) {
+        return shoppingCartRepository.getShoppingCartByName(shoppingCartName)
+                .orElseThrow(() -> new NotFoundException("Shopping cart not found"));
+
     }
 
 }

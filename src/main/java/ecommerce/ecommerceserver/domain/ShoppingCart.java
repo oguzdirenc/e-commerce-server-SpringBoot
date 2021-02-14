@@ -25,7 +25,9 @@ public class ShoppingCart {
     private UUID shoppingCartId;
 
     @Min(value = 0,message = "Total price cannot be negative")
-    private BigDecimal totalPriceShoppingCart;
+    private BigDecimal totalPriceShoppingCart = new BigDecimal(0);
+
+    private String shoppingCartName;
 
     @OneToOne(mappedBy = "shoppingCart")
     private ApplicationUser user;

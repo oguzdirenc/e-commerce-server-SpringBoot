@@ -15,7 +15,7 @@ import java.util.UUID;
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin
-@RequestMapping("/comment")
+@RequestMapping("/api/comment")
 public class CommentController {
 
     private final MapValidationErrorService mapValidationErrorService;
