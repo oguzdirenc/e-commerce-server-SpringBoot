@@ -29,7 +29,7 @@ public class ShoppingCart {
 
     private String shoppingCartName;
 
-    @OneToOne(mappedBy = "shoppingCart")
+    @OneToOne(mappedBy = "shoppingCart" , cascade = CascadeType.ALL)
     private ApplicationUser user;
 
     @ManyToMany

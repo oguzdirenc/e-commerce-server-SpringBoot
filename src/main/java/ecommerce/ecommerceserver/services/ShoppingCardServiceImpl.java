@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 @Service
 @RequiredArgsConstructor
@@ -82,6 +84,26 @@ public class ShoppingCardServiceImpl implements ShoppingCardService {
         return shoppingCartRepository.getShoppingCartByName(shoppingCartName)
                 .orElseThrow(() -> new NotFoundException("Shopping cart not found"));
 
+    }
+
+    @Override
+    public List<Book> getShoppingCartBookList(UUID shoppingCartId) {
+        List<Book> shoppingCartBooks = new ArrayList<>();
+
+        ShoppingCart shoppingCart = getShoppingCArtById(shoppingCartId);
+
+        for(Book book : shoppingCart.getShoppingCartBooks()){
+            shoppingCartBooks.add(book);
+        }
+
+        return shoppingCartBooks;
+    }
+
+    @Override
+    public ShoppingCart getShoppingCArtById(UUID shoppingCartId) {
+
+        return shoppingCartRepository.findById(shoppingCartId)
+                .orElseThrow(()-> new NotFoundException("Shopping cart not found"));
     }
 
 }
