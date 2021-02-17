@@ -1,17 +1,22 @@
 package ecommerce.ecommerceserver.services;
 
+import ecommerce.ecommerceserver.domain.Author;
 import ecommerce.ecommerceserver.domain.Book;
 import ecommerce.ecommerceserver.exceptions.NotFoundException;
+import ecommerce.ecommerceserver.repositories.AuthorRepository;
 import ecommerce.ecommerceserver.repositories.BookRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
+    private final AuthorRepository authorRepository;
 
     @Override
     public Book getBookById(UUID id) {
@@ -43,6 +48,24 @@ public class BookServiceImpl implements BookService {
     @Override
     public Book saveBook(Book book) {
 
+//        List<Author> authorList = new ArrayList<>();
+//
+//        Author author = Author.builder().authorName("Burak opu").build();
+//
+//        authorRepository.save(author);
+//
+//        authorList.add(author);
+//
+//        book.setAuthorsList(authorList);
+
+//        for(Author author: book1.getAuthorsList()){
+//            author.getBooksList().add(book1);
+//            authorRepository.save(author);
+//
+//}
+
+        book.setAuthorsList(book.getAuthorsList());
+
         return bookRepository.save(book);
 
     }
@@ -50,5 +73,11 @@ public class BookServiceImpl implements BookService {
     @Override
     public Book getBookByName(String bookName) {
         return bookRepository.findByBookName(bookName).orElseThrow(() -> new NotFoundException("Book not found"));
+    }
+
+    @Override
+    public List<Book> getAllBooks() {
+
+        return bookRepository.findAll();
     }
 }

@@ -10,9 +10,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Getter
 @Setter
@@ -50,7 +48,7 @@ public class Book {
     //@NotBlank(message = "Book description should not be blank")
     private String bookDescription;
 
-    @Lob
+
     //@NotNull(message = "Book image should not be blank")
     private String bookThumbnail;
 
@@ -65,8 +63,8 @@ public class Book {
     @ManyToMany(mappedBy = "bookCategoryList",cascade = CascadeType.ALL)
     private List<Category> categoryBooksList =new ArrayList<>();
 
-    @ManyToMany(mappedBy = "authorBooksList",cascade = CascadeType.ALL)
-    private List<Author> bookAuthorsList =new ArrayList<>();
+    @ManyToMany(mappedBy = "booksList",cascade = CascadeType.ALL)
+    private Set<Author> authorsList =new HashSet<>();
 
     @ManyToMany(mappedBy = "shoppingCartBooks",cascade = CascadeType.ALL)
     private List<ShoppingCart> bookShoppingCart = new ArrayList<>();

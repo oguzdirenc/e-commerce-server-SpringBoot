@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -26,6 +27,12 @@ public class BookController {
         if (result != null) mapValidationErrorService.mapValidationService(result);
 
         return new ResponseEntity<>(bookService.saveBook(book), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<?> getAllBooks(){
+        List<Book> allBooks = bookService.getAllBooks();
+        return new ResponseEntity<>(allBooks,HttpStatus.OK);
     }
 
     @GetMapping("/id/{bookId}")

@@ -2,6 +2,7 @@ package ecommerce.ecommerceserver.services;
 
 import ecommerce.ecommerceserver.domain.Book;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface BookService {
@@ -15,4 +16,6 @@ public interface BookService {
     Book saveBook(Book book);
 
     Book getBookByName(String bookName);
+
+    List<Book> getAllBooks();
 }

@@ -6,9 +6,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Getter
 @Setter
@@ -26,10 +24,10 @@ public class Author {
     @NotBlank(message = "Author name should not be blank")
     private String authorName;
 
-    @NotBlank(message = "Author image should not be blank")
+    //@NotBlank(message = "Author image should not be blank")
     private String authorThumbnail;
 
-    @NotBlank(message = "Author description field should not be blank")
+    //@NotBlank(message = "Author description field should not be blank")
     private String authorBio;
 
     @ManyToMany
@@ -37,6 +35,6 @@ public class Author {
     @JoinTable(name = "author_book",
     joinColumns = {@JoinColumn(name = "author_id")},
     inverseJoinColumns = {@JoinColumn(name = "book_id")})
-    private List<Book> authorBooksList = new ArrayList<>();
+    private Set<Book> booksList = new HashSet<>();
 
 }
