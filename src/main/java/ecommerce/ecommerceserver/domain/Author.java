@@ -35,6 +35,6 @@ public class Author {
     @JoinTable(name = "author_book",
     joinColumns = {@JoinColumn(name = "author_id")},
     inverseJoinColumns = {@JoinColumn(name = "book_id")})
-    private Set<Book> booksList = new HashSet<>();
+    private List<Book> booksList = new ArrayList<>();
 
 }

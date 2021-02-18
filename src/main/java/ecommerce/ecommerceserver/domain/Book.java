@@ -64,7 +64,7 @@ public class Book {
     private List<Category> categoryBooksList =new ArrayList<>();
 
     @ManyToMany(mappedBy = "booksList",cascade = CascadeType.ALL)
-    private Set<Author> authorsList =new HashSet<>();
+    private List<Author> authorsList =new ArrayList<>();
 
     @ManyToMany(mappedBy = "shoppingCartBooks",cascade = CascadeType.ALL)
     private List<ShoppingCart> bookShoppingCart = new ArrayList<>();

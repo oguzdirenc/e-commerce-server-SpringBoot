@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -20,28 +21,28 @@ public class AuthorServiceImpl implements AuthorService {
     private final BookRepository bookRepository;
 
     @Override
-    public Author getAuthorById(UUID id) {
-        return null;
+    public Author getAuthorById(UUID authorId) {
+        return authorRepository.findById(authorId).orElseThrow(() -> new NotFoundException("Author not found"));
     }
 
     @Override
-    public Book saveBookAuthors(UUID bookId, UUID authorId) {
+    public Book saveBookAuthors(UUID bookId, Set<String> authorSet) {
 
-        Book book1 = bookService.getBookById(bookId);
+        Book book1 = bookRepository.findById(bookId).get();
 
-        Author author =  authorRepository.findById(authorId).orElseThrow(() -> new NotFoundException("NotFound"));
+        for (String authorName : authorSet) {
+            authorRepository.findByAuthorName(authorName).
+                    ifPresentOrElse((authorFound) -> book1.getAuthorsList().add(authorFound),
+                            () -> {
+                                Author author = new Author();
+                                author.setAuthorName(authorName);
+                                author.getBooksList().add(book1);
+                                authorRepository.save(author);
+                            });
+        }
 
-        author.getBooksList().add(book1);
-       // book1.getAuthorsList().add(author);
-
-//        for (Author author : authorList){
-//            book1.getAuthorsList().add(author);
-//            bookRepository.save(book1);
-//        }
-
-        //book1.setAuthorsList(authorList);
-
-        return bookRepository.save(book1);
+        bookRepository.save(book1);
+        return book1;
     }
 
     @Override

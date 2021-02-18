@@ -64,7 +64,7 @@ public class BookServiceImpl implements BookService {
 //
 //}
 
-        book.setAuthorsList(book.getAuthorsList());
+//        book.setAuthorsList(book.getAuthorsList());
 
         return bookRepository.save(book);
 

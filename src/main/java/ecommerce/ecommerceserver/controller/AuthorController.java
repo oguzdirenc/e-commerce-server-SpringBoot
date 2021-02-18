@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @RestController
@@ -34,12 +35,12 @@ public class AuthorController {
 
     }
 
-    @PostMapping("/book/{bookId}/{authorId}")
+    @PostMapping("/book/{bookId}")
     public ResponseEntity<?> saveBookAuthor(
                                             @PathVariable UUID bookId,
-                                            @PathVariable UUID authorId){
+                                            @RequestBody Set<String> authorName){
 
-       return new ResponseEntity<>(authorService.saveBookAuthors(bookId,authorId),HttpStatus.OK);
+       return new ResponseEntity<>(authorService.saveBookAuthors(bookId,authorName),HttpStatus.OK);
 
     }
 
