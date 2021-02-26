@@ -35,6 +35,14 @@ public class Book {
     @NotBlank(message = "Book name should not be blank")
     private String bookName;
 
+    private String publisherName;
+
+    private String publishedDate;
+
+    private String bookPdfDownloadLink;
+
+    private String bookBuyLink;
+
     //@NotNull(message = "Book page field should not be blank")
     private Integer bookPage;
 
