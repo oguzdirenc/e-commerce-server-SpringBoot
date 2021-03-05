@@ -16,7 +16,6 @@ import java.util.UUID;
 public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
-    private final AuthorRepository authorRepository;
 
     @Override
     public Book getBookById(UUID id) {
@@ -47,24 +46,6 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book saveBook(Book book) {
-
-//        List<Author> authorList = new ArrayList<>();
-//
-//        Author author = Author.builder().authorName("Burak opu").build();
-//
-//        authorRepository.save(author);
-//
-//        authorList.add(author);
-//
-//        book.setAuthorsList(authorList);
-
-//        for(Author author: book1.getAuthorsList()){
-//            author.getBooksList().add(book1);
-//            authorRepository.save(author);
-//
-//}
-
-//        book.setAuthorsList(book.getAuthorsList());
 
         return bookRepository.save(book);
 
