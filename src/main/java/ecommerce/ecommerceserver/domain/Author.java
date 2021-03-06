@@ -21,7 +21,7 @@ public class Author {
     @Column(columnDefinition = "BINARY(16)")
     private UUID authorId;
 
-    @NotBlank(message = "Author name should not be blank")
+    //@NotBlank(message = "Author name should not be blank")
     private String authorName;
 
     //@NotBlank(message = "Author image should not be blank")
@@ -35,6 +35,6 @@ public class Author {
     @JoinTable(name = "author_book",
     joinColumns = {@JoinColumn(name = "author_id")},
     inverseJoinColumns = {@JoinColumn(name = "book_id")})
-    private List<Book> booksList = new ArrayList<>();
+    private List<Book> booksAuthorList = new ArrayList<>();
 
 }

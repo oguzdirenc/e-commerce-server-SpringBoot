@@ -38,9 +38,9 @@ public class AuthorController {
     @PostMapping("/book/{bookId}")
     public ResponseEntity<?> saveBookAuthor(
                                             @PathVariable UUID bookId,
-                                            @RequestBody Set<String> authorName){
+                                            @RequestBody List<Author> authorList){
 
-       return new ResponseEntity<>(authorService.saveBookAuthors(bookId,authorName),HttpStatus.OK);
+       return new ResponseEntity<>(authorService.saveBookAuthors(bookId,authorList),HttpStatus.OK);
 
     }
 

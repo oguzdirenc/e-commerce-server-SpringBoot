@@ -30,9 +30,7 @@ public class CategoryServiceImpl implements CategoryService {
            category1.ifPresentOrElse((cat)->{
                cat.getBookCategoryList().add(book);
                categoryRepository.save(cat);
-           }
-
-           ,() -> {
+           },() -> {
                Category newCategory = new Category();
                newCategory.setCategoryDescription(category.getCategoryDescription());
                newCategory.getBookCategoryList().add(book);

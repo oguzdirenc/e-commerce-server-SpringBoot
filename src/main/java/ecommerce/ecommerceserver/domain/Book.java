@@ -54,6 +54,7 @@ public class Book {
     private Long bookStock;
 
     //@NotBlank(message = "Book description should not be blank")
+    @Lob
     private String bookDescription;
 
 
@@ -71,8 +72,8 @@ public class Book {
     @ManyToMany(mappedBy = "bookCategoryList",cascade = CascadeType.ALL)
     private List<Category> categoryBooksList =new ArrayList<>();
 
-    @ManyToMany(mappedBy = "booksList",cascade = CascadeType.ALL)
-    private List<Author> authorsList =new ArrayList<>();
+    @ManyToMany(mappedBy = "booksAuthorList",cascade = CascadeType.ALL)
+    private List<Author> authorsBookList =new ArrayList<>();
 
     @ManyToMany(mappedBy = "shoppingCartBooks",cascade = CascadeType.ALL)
     private List<ShoppingCart> bookShoppingCart = new ArrayList<>();

@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -26,22 +27,30 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public Book saveBookAuthors(UUID bookId, Set<String> authorSet) {
+    public Book saveBookAuthors(UUID bookId, List<Author> authorList) {
 
         Book book1 = bookRepository.findById(bookId).get();
 
-        for (String authorName : authorSet) {
-            authorRepository.findByAuthorName(authorName).
-                    ifPresentOrElse((authorFound) -> book1.getAuthorsList().add(authorFound),
-                            () -> {
-                                Author author = new Author();
-                                author.setAuthorName(authorName);
-                                author.getBooksList().add(book1);
-                                authorRepository.save(author);
-                            });
-        }
 
-        bookRepository.save(book1);
+        for (Author author : authorList) {
+            Optional<Author> author1 = authorRepository.findByAuthorName(author.getAuthorName());
+
+           author1.ifPresentOrElse((authorFound) ->{
+
+                            authorFound.getBooksAuthorList().add(book1);
+                            bookRepository.save(book1);
+                            },() -> {
+                            if(author.getAuthorName() != null){
+                                Author newAuthor = new Author();
+                                newAuthor.setAuthorName(author.getAuthorName());
+                                if(author.getAuthorBio() != null) newAuthor.setAuthorBio(author.getAuthorBio());
+                                if(author.getAuthorThumbnail() != null) newAuthor.setAuthorThumbnail(author.getAuthorThumbnail());
+                                newAuthor.getBooksAuthorList().add(book1);
+                                authorRepository.save(newAuthor);}
+                            });
+            }
+
+
         return book1;
     }
 
