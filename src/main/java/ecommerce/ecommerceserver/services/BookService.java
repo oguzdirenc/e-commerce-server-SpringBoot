@@ -15,7 +15,7 @@ public interface BookService {
 
     Book saveBook(Book book);
 
-
+    Boolean addToShoppingCart(UUID bookId);
 
     Book getBookByName(String bookName);
 

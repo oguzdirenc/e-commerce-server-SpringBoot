@@ -1,14 +1,12 @@
 package ecommerce.ecommerceserver.services;
 
-import ecommerce.ecommerceserver.domain.Author;
 import ecommerce.ecommerceserver.domain.Book;
 import ecommerce.ecommerceserver.exceptions.NotFoundException;
-import ecommerce.ecommerceserver.repositories.AuthorRepository;
 import ecommerce.ecommerceserver.repositories.BookRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.UUID;
 @Service
@@ -48,10 +46,18 @@ public class BookServiceImpl implements BookService {
     public Book saveBook(Book book) {
 
         return bookRepository.save(book);
-
     }
 
-
+    @Override
+    public Boolean addToShoppingCart(UUID bookId) {
+        Book book = getBookById(bookId);
+        if(book.getOrderSize() == 0) {
+            book.setOrderSize(1);
+            bookRepository.save(book);
+            return true;
+        }
+        return false;
+    }
 
     @Override
     public Book getBookByName(String bookName) {

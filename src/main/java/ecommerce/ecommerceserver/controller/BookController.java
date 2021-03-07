@@ -40,7 +40,6 @@ public class BookController {
     @GetMapping("/id/{bookId}")
     public ResponseEntity<?> getBook(@PathVariable UUID bookId){
 
-
         return new ResponseEntity<Book>(bookService.getBookById(bookId),HttpStatus.OK);
     }
 
@@ -52,6 +51,11 @@ public class BookController {
     @GetMapping("/name/{bookName}")
     public ResponseEntity<?> getBookByName(@PathVariable String bookName){
         return new ResponseEntity<>(bookService.getBookByName(bookName),HttpStatus.OK);
+    }
+
+    @GetMapping("/order/{bookId}")
+    public  ResponseEntity<?> addToShoppingCart(@PathVariable UUID bookId){
+        return new ResponseEntity<Boolean>(bookService.addToShoppingCart(bookId),HttpStatus.OK);
     }
 
 }
