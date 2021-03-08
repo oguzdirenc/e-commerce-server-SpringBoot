@@ -3,6 +3,7 @@ package ecommerce.ecommerceserver.services;
 import ecommerce.ecommerceserver.domain.Book;
 import ecommerce.ecommerceserver.domain.ShoppingCart;
 import ecommerce.ecommerceserver.exceptions.NotFoundException;
+import ecommerce.ecommerceserver.repositories.BookRepository;
 import ecommerce.ecommerceserver.repositories.ShoppingCartRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import java.util.UUID;
 public class ShoppingCardServiceImpl implements ShoppingCardService {
 
     private final BookService bookService;
+    private final BookRepository bookRepository;
     private final ShoppingCartRepository shoppingCartRepository;
 
     @Override
@@ -87,10 +89,16 @@ public class ShoppingCardServiceImpl implements ShoppingCardService {
     }
 
     @Override
+    public List<Book> userShoppingCartBooks() {
+
+        return bookRepository.shoppingCartBooks();
+    }
+
+    @Override
     public List<Book> getShoppingCartBookList(UUID shoppingCartId) {
         List<Book> shoppingCartBooks = new ArrayList<>();
 
-        ShoppingCart shoppingCart = getShoppingCArtById(shoppingCartId);
+        ShoppingCart shoppingCart = getShoppingCartById(shoppingCartId);
 
         for(Book book : shoppingCart.getShoppingCartBooks()){
             shoppingCartBooks.add(book);
@@ -100,7 +108,7 @@ public class ShoppingCardServiceImpl implements ShoppingCardService {
     }
 
     @Override
-    public ShoppingCart getShoppingCArtById(UUID shoppingCartId) {
+    public ShoppingCart getShoppingCartById(UUID shoppingCartId) {
 
         return shoppingCartRepository.findById(shoppingCartId)
                 .orElseThrow(()-> new NotFoundException("Shopping cart not found"));

@@ -51,12 +51,17 @@ public class ShoppingCartController {
 
     @GetMapping("/Id/{shoppingCartId}")
     public ResponseEntity<?> getShoppingCartById(@PathVariable UUID shoppingCartId){
-        return new ResponseEntity<>(shoppingCardService.getShoppingCArtById(shoppingCartId),HttpStatus.OK);
+        return new ResponseEntity<>(shoppingCardService.getShoppingCartBookList(shoppingCartId),HttpStatus.OK);
     }
 
     @GetMapping({"/books/{shoppingCartId}"})
     public ResponseEntity<?> getShoppingCartBooks(@PathVariable UUID shoppingCartId){
         return new ResponseEntity<>(shoppingCardService.getShoppingCartBookList(shoppingCartId),HttpStatus.OK);
+    }
+
+    @GetMapping({"books"})
+    public ResponseEntity<?> userShoppingCartBooks(){
+        return new ResponseEntity<>(shoppingCardService.userShoppingCartBooks(),HttpStatus.OK);
     }
 
 
