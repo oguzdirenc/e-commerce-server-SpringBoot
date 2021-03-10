@@ -72,8 +72,8 @@ public class Book {
     @ManyToMany(mappedBy = "bookCategoryList",cascade = CascadeType.ALL)
     private List<Category> categoryBooksList =new ArrayList<>();
 
-    @ManyToMany(mappedBy = "booksAuthorList",cascade = CascadeType.ALL)
-    private List<Author> authorsBookList =new ArrayList<>();
+    @ManyToMany(mappedBy = "authorBooksList",cascade = CascadeType.ALL)
+    private List<Author> bookAuthorsList =new ArrayList<>();
 
     @ManyToMany(mappedBy = "shoppingCartBooks",cascade = CascadeType.ALL)
     private List<ShoppingCart> bookShoppingCart = new ArrayList<>();

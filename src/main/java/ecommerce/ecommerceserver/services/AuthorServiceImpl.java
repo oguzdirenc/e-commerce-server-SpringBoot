@@ -37,15 +37,16 @@ public class AuthorServiceImpl implements AuthorService {
 
            author1.ifPresentOrElse((authorFound) ->{
 
-                            authorFound.getBooksAuthorList().add(book1);
+                            authorFound.getAuthorBooksList().add(book1);
                             bookRepository.save(book1);
                             },() -> {
                             if(author.getAuthorName() != null){
                                 Author newAuthor = new Author();
                                 newAuthor.setAuthorName(author.getAuthorName());
                                 if(author.getAuthorBio() != null) newAuthor.setAuthorBio(author.getAuthorBio());
+                                System.out.println(author.getAuthorName());
                                 if(author.getAuthorThumbnail() != null) newAuthor.setAuthorThumbnail(author.getAuthorThumbnail());
-                                newAuthor.getBooksAuthorList().add(book1);
+                                newAuthor.getAuthorBooksList().add(book1);
                                 authorRepository.save(newAuthor);}
                             });
             }
