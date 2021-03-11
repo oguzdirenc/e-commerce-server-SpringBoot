@@ -49,6 +49,19 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public Book updateBook(Book book) {
+
+        Book book1 = getBookById(book.getBookId());
+
+        book1.setBookPdfDownloadLink(book.getBookPdfDownloadLink());
+        book1.setBookBuyLink(book.getBookBuyLink());
+        book1.setBookPrice(book.getBookPrice());
+        book1.setBookStock(book.getBookStock());
+
+        return bookRepository.save(book1);
+    }
+
+    @Override
     public Boolean addToShoppingCart(UUID bookId) {
         Book book = getBookById(bookId);
         if(book.getOrderSize() == 0) {

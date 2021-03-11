@@ -29,6 +29,13 @@ public class BookController {
         return new ResponseEntity<>(bookService.saveBook(book), HttpStatus.CREATED);
     }
 
+    @PostMapping("/update")
+    public ResponseEntity<?> updateBook(@Valid @RequestBody Book book ,BindingResult result){
+        if (result != null) mapValidationErrorService.mapValidationService(result);
+
+        return new ResponseEntity<>(bookService.updateBook(book),HttpStatus.OK);
+    }
+
 
 
     @GetMapping("/all")

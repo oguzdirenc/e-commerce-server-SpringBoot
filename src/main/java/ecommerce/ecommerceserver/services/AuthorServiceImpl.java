@@ -33,26 +33,30 @@ public class AuthorServiceImpl implements AuthorService {
 
 
         for (Author author : authorList) {
-            Optional<Author> author1 = authorRepository.findByAuthorName(author.getAuthorName());
 
-           author1.ifPresentOrElse((authorFound) ->{
+            if(author.getAuthorName() != null && !author.getAuthorName().equals("")){
 
-                            authorFound.getAuthorBooksList().add(book1);
-                            bookRepository.save(book1);
-                            },() -> {
-                            if(author.getAuthorName() != null){
-                                Author newAuthor = new Author();
-                                newAuthor.setAuthorName(author.getAuthorName());
-                                if(author.getAuthorBio() != null) newAuthor.setAuthorBio(author.getAuthorBio());
-                                System.out.println(author.getAuthorName());
-                                if(author.getAuthorThumbnail() != null) newAuthor.setAuthorThumbnail(author.getAuthorThumbnail());
-                                newAuthor.getAuthorBooksList().add(book1);
-                                authorRepository.save(newAuthor);}
-                            });
-            }
+                    Optional < Author > author1 = authorRepository.findByAuthorName(author.getAuthorName());
+
+            author1.ifPresentOrElse((authorFound) -> {
+
+                authorFound.getAuthorBooksList().add(book1);
+                bookRepository.save(book1);
+            }, () -> {
+                if (author.getAuthorName() != null) {
+                    Author newAuthor = new Author();
+                    newAuthor.setAuthorName(author.getAuthorName());
+                    if (author.getAuthorBio() != null) newAuthor.setAuthorBio(author.getAuthorBio());
+                    System.out.println(author.getAuthorName());
+                    if (author.getAuthorThumbnail() != null) newAuthor.setAuthorThumbnail(author.getAuthorThumbnail());
+                    newAuthor.getAuthorBooksList().add(book1);
+                    authorRepository.save(newAuthor);
+                }
+            });
+            }}
 
 
-        return book1;
+        return bookRepository.findById(bookId).get();
     }
 
     @Override
