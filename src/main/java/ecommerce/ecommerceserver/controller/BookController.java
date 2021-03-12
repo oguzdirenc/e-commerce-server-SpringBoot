@@ -36,6 +36,10 @@ public class BookController {
         return new ResponseEntity<>(bookService.updateBook(book),HttpStatus.OK);
     }
 
+    @PostMapping("/setOrder/{bookId}/{order}")
+    public ResponseEntity<?> setBookOrder(@PathVariable UUID bookId , @PathVariable Integer order){
+        return new ResponseEntity<>(bookService.setBookOrder(bookId,order),HttpStatus.OK);
+    }
 
 
     @GetMapping("/all")
