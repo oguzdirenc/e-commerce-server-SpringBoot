@@ -59,6 +59,7 @@ public class Book {
 
 
     //@NotNull(message = "Book image should not be blank")
+    @Lob
     private String bookThumbnail;
 
     @JsonIgnore

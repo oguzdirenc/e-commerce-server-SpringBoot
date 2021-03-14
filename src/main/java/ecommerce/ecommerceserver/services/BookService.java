@@ -19,6 +19,8 @@ public interface BookService {
 
     Book setBookOrder(UUID bookId , Integer order);
 
+    Book deleteBookOrder(UUID bookId);
+
     Boolean addToShoppingCart(UUID bookId);
 
     Book getBookByName(String bookName);

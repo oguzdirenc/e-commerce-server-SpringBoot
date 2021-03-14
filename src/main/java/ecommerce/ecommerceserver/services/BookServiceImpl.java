@@ -72,6 +72,16 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public Book deleteBookOrder(UUID bookId) {
+
+        Book book = getBookById(bookId);
+
+        book.setOrderSize(0);
+
+        return bookRepository.save(book);
+    }
+
+    @Override
     public Boolean addToShoppingCart(UUID bookId) {
         Book book = getBookById(bookId);
         if(book.getOrderSize() == 0) {

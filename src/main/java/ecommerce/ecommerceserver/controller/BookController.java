@@ -41,6 +41,13 @@ public class BookController {
         return new ResponseEntity<>(bookService.setBookOrder(bookId,order),HttpStatus.OK);
     }
 
+    @PostMapping("/delete/order/{bookId}")
+    public  ResponseEntity<?> deleteBookOrder(@PathVariable UUID bookId){
+        return new ResponseEntity<>(bookService.deleteBookOrder(bookId),HttpStatus.OK);
+    }
+
+
+
 
     @GetMapping("/all")
     public ResponseEntity<?> getAllBooks(){
