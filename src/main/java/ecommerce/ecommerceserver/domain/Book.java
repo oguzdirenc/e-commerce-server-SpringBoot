@@ -32,7 +32,7 @@ public class Book {
     @Digits(integer = 1,fraction = 1)
     private Float bookRate=0.0F;
 
-    //@NotBlank(message = "Book name should not be blank")
+    @NotBlank(message = "Book name should not be blank")
     private String bookName;
 
     private String publisherName;

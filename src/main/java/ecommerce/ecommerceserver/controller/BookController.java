@@ -24,13 +24,16 @@ public class BookController {
 
     @PostMapping("/save")
     public ResponseEntity<?> saveBook(@Valid @RequestBody Book book , BindingResult result){
-        if (result != null) mapValidationErrorService.mapValidationService(result);
+
+        ResponseEntity<?> errorMap= mapValidationErrorService.mapValidationService(result);
+        if (result.hasFieldErrors()) return errorMap;
 
         return new ResponseEntity<>(bookService.saveBook(book), HttpStatus.CREATED);
     }
 
     @PostMapping("/update")
     public ResponseEntity<?> updateBook(@Valid @RequestBody Book book ,BindingResult result){
+
         if (result != null) mapValidationErrorService.mapValidationService(result);
 
         return new ResponseEntity<>(bookService.updateBook(book),HttpStatus.OK);
@@ -45,9 +48,6 @@ public class BookController {
     public  ResponseEntity<?> deleteBookOrder(@PathVariable UUID bookId){
         return new ResponseEntity<>(bookService.deleteBookOrder(bookId),HttpStatus.OK);
     }
-
-
-
 
     @GetMapping("/all")
     public ResponseEntity<?> getAllBooks(){
