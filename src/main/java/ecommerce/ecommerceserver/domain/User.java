@@ -1,24 +1,29 @@
 package ecommerce.ecommerceserver.domain;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import java.util.Date;
+
+import java.util.Collection;
+
 import java.util.UUID;
 
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
-public class User {
+@RequiredArgsConstructor
+@AllArgsConstructor
+public class User implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private UUID userId;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(columnDefinition = "BINARY(16)")
+    private UUID newUserId;
 
     @Email(message = "Kullanıcı adı e-mail adresi olmalıdır")
     @NotBlank(message = "Kullanıcı adı gereklidir")
@@ -34,7 +39,7 @@ public class User {
     @Transient
     private String confirmPassword;
 
-    private Date createdAt;
+    /*private Date createdAt;
     private Date updatedAt;
 
     @PrePersist
@@ -42,4 +47,35 @@ public class User {
 
     @PreUpdate
     protected void onUpdate() {this.updatedAt = new Date();}
+*/
+
+    @Override
+    @JsonIgnore
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
+    @Override
+    @JsonIgnore
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    @JsonIgnore
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    @JsonIgnore
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    @JsonIgnore
+    public boolean isEnabled() {
+        return true;
+    }
 }
