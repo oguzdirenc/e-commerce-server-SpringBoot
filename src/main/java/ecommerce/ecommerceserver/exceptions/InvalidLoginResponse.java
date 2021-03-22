@@ -12,7 +12,7 @@ public class InvalidLoginResponse {
     private String password;
 
     public InvalidLoginResponse(){
-        this.username="Invalid Username";
-        this.password="Invalid Password";
+        this.username="Geçersiz kullanıcı adı";
+        this.password="Geçersiz şifre";
     }
 }

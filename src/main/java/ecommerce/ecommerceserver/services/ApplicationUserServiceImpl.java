@@ -3,12 +3,12 @@ package ecommerce.ecommerceserver.services;
 import ecommerce.ecommerceserver.domain.ApplicationUser;
 import ecommerce.ecommerceserver.domain.Book;
 import ecommerce.ecommerceserver.exceptions.NotFoundException;
+import ecommerce.ecommerceserver.exceptions.UsernameAlreadyExistsException;
 import ecommerce.ecommerceserver.repositories.ApplicationUserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
@@ -18,6 +18,18 @@ import java.util.UUID;
 public class ApplicationUserServiceImpl implements ApplicationUserService {
 
     private final ApplicationUserRepository applicationUserRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Override
+    public ApplicationUser saveUser(ApplicationUser newUser) {
+        try {
+            newUser.setPassword(bCryptPasswordEncoder.encode(newUser.getPassword()));
+            newUser.setConfirmPassword("");
+            return applicationUserRepository.save(newUser);
+        }catch (Exception err) {
+            throw new UsernameAlreadyExistsException("Kullanıcı adı '" + newUser.getUsername() + "' zaten kayıtlı");
+        }
+    }
 
     @Override
     public ApplicationUser getUserById(UUID id) {

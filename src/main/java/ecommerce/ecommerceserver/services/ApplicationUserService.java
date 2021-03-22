@@ -15,4 +15,6 @@ public interface ApplicationUserService {
     ApplicationUser saveApplicationUser(ApplicationUser user);
 
     String deleteApplicationUserById(UUID id);
+
+    ApplicationUser saveUser(ApplicationUser newUser);
 }
