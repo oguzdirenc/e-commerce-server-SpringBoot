@@ -16,7 +16,7 @@ public interface ShoppingCardService {
 
     void setPrice(ShoppingCart shoppingCart);
 
-    ShoppingCart saveShoppingCart(ShoppingCart shoppingCart);
+    ShoppingCart saveShoppingCart(List<Book> bookList,String username);
 
     ShoppingCart getShoppingCartByName(String shoppingCartName);
 

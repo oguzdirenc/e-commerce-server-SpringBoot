@@ -12,6 +12,8 @@ public interface ApplicationUserService {
 
     Set<Book> getFavoriteBooksByUserId(UUID id);
 
+    ApplicationUser getUserByUsername(String username);
+
     ApplicationUser saveApplicationUser(ApplicationUser user);
 
     String deleteApplicationUserById(UUID id);

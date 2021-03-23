@@ -1,5 +1,6 @@
 package ecommerce.ecommerceserver.controller;
 
+import ecommerce.ecommerceserver.domain.Book;
 import ecommerce.ecommerceserver.domain.ShoppingCart;
 import ecommerce.ecommerceserver.services.BookService;
 import ecommerce.ecommerceserver.services.MapValidationErrorService;
@@ -11,6 +12,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -37,11 +40,14 @@ public class ShoppingCartController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<?> saveShoppingCart(@Valid @RequestBody ShoppingCart shoppingCart
-           ,BindingResult bindingResult){
-        if(bindingResult != null) mapValidationErrorService.mapValidationService(bindingResult);
+    public ResponseEntity<?> saveShoppingCart(@Valid @RequestBody List<Book> bookList
+           , BindingResult bindingResult, Principal principal){
 
-        return new ResponseEntity<ShoppingCart>(shoppingCardService.saveShoppingCart(shoppingCart),HttpStatus.CREATED);
+        ResponseEntity<?> errorMap = mapValidationErrorService.mapValidationService(bindingResult);
+        if(bindingResult.hasFieldErrors()) return errorMap;
+
+
+        return new ResponseEntity<ShoppingCart>(shoppingCardService.saveShoppingCart(bookList,principal.getName()),HttpStatus.CREATED);
     }
 
     @GetMapping("/name/{name}")

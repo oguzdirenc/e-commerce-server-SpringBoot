@@ -49,6 +49,11 @@ public class ApplicationUserServiceImpl implements ApplicationUserService {
     }
 
     @Override
+    public ApplicationUser getUserByUsername(String username) {
+        return applicationUserRepository.findByUsername(username);
+    }
+
+    @Override
     public ApplicationUser saveApplicationUser(ApplicationUser user) {
 
         return null;

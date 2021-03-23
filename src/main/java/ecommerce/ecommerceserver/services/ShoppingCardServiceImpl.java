@@ -1,5 +1,6 @@
 package ecommerce.ecommerceserver.services;
 
+import ecommerce.ecommerceserver.domain.ApplicationUser;
 import ecommerce.ecommerceserver.domain.Book;
 import ecommerce.ecommerceserver.domain.ShoppingCart;
 import ecommerce.ecommerceserver.exceptions.NotFoundException;
@@ -19,6 +20,7 @@ public class ShoppingCardServiceImpl implements ShoppingCardService {
     private final BookService bookService;
     private final BookRepository bookRepository;
     private final ShoppingCartRepository shoppingCartRepository;
+    private final ApplicationUserService applicationUserService;
 
     @Override
     public Book addBookToCard(UUID bookID, ShoppingCart shoppingCart) {
@@ -76,9 +78,13 @@ public class ShoppingCardServiceImpl implements ShoppingCardService {
     }
 
     @Override
-    public ShoppingCart saveShoppingCart(ShoppingCart shoppingCart) {
-         shoppingCartRepository.save(shoppingCart);
-         return shoppingCart;
+    public ShoppingCart saveShoppingCart(List<Book> bookList,String username) {
+
+            ApplicationUser user = applicationUserService.getUserByUsername(username);
+            ShoppingCart shoppingCart = user.getShoppingCart();
+            shoppingCart.setShoppingCartBooks(bookList);
+            shoppingCart.setShoppingCartName(username);
+            return shoppingCartRepository.save(shoppingCart);
     }
 
     @Override
