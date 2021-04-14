@@ -18,24 +18,26 @@ import java.util.UUID;
 public class ShoppingCardServiceImpl implements ShoppingCardService {
 
     private final BookService bookService;
-    private final BookRepository bookRepository;
     private final ShoppingCartRepository shoppingCartRepository;
     private final ApplicationUserService applicationUserService;
 
+    //Significant
     @Override
-    public Book addBookToCard(UUID bookID, ShoppingCart shoppingCart) {
+    public ShoppingCart addBookToCard(UUID bookID, String username) {
 
         Book book = bookService.getBookById(bookID);
+        ShoppingCart shoppingCart = applicationUserService.getShoppingCartByUsername(username);
         shoppingCart.getShoppingCartBooks().add(book);
-        setPrice(shoppingCart);
-        return book;
-
+        shoppingCartRepository.save(shoppingCart);
+        return shoppingCart;
     }
 
+    //Significant
     @Override
-    public String removeBookFromCard(UUID bookId,ShoppingCart shoppingCart) {
+    public String removeBookFromCard(UUID bookId,String username) {
 
         Book bookToRemove = null;
+        ShoppingCart shoppingCart = applicationUserService.getShoppingCartByUsername(username);
 
         for (Book book : shoppingCart.getShoppingCartBooks() ){
             if(book.getBookId() == bookId)   bookToRemove = book;
@@ -95,9 +97,12 @@ public class ShoppingCardServiceImpl implements ShoppingCardService {
     }
 
     @Override
-    public List<Book> userShoppingCartBooks() {
+    public ShoppingCart userShoppingCart(String username) {
 
-        return bookRepository.shoppingCartBooks();
+        ApplicationUser user = applicationUserService.getUserByUsername(username);
+
+
+        return user.getShoppingCart();
     }
 
     @Override

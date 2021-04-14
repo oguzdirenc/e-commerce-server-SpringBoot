@@ -8,9 +8,9 @@ import java.util.UUID;
 
 public interface ShoppingCardService {
 
-    Book addBookToCard(UUID bookID, ShoppingCart shoppingCart);
+    ShoppingCart addBookToCard(UUID bookID, String username);
 
-    String removeBookFromCard(UUID bookId,ShoppingCart shoppingCart);
+    String removeBookFromCard(UUID bookId,String username);
 
     Book updateBookInCard(Book book, UUID shoppingCartID);
 
@@ -20,7 +20,7 @@ public interface ShoppingCardService {
 
     ShoppingCart getShoppingCartByName(String shoppingCartName);
 
-    List<Book> userShoppingCartBooks();
+    ShoppingCart userShoppingCart(String username);
 
     List<Book> getShoppingCartBookList(UUID shoppingCartId);
 

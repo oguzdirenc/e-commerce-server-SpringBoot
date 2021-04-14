@@ -2,6 +2,7 @@ package ecommerce.ecommerceserver.services;
 
 import ecommerce.ecommerceserver.domain.ApplicationUser;
 import ecommerce.ecommerceserver.domain.Book;
+import ecommerce.ecommerceserver.domain.ShoppingCart;
 import ecommerce.ecommerceserver.exceptions.NotFoundException;
 import ecommerce.ecommerceserver.exceptions.UsernameAlreadyExistsException;
 import ecommerce.ecommerceserver.repositories.ApplicationUserRepository;
@@ -51,6 +52,13 @@ public class ApplicationUserServiceImpl implements ApplicationUserService {
     @Override
     public ApplicationUser getUserByUsername(String username) {
         return applicationUserRepository.findByUsername(username);
+    }
+
+    @Override
+    public ShoppingCart getShoppingCartByUsername(String username) {
+        ApplicationUser user = getUserByUsername(username);
+
+        return user.getShoppingCart();
     }
 
     @Override

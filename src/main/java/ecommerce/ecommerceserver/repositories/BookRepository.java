@@ -13,7 +13,4 @@ public interface BookRepository extends JpaRepository<Book, UUID> {
     @Query("select x from Book x where x.bookName=:name")
     Optional<Book> findByBookName(String name);
 
-    @Query("select x from Book x where x.orderSize >=1")
-    List<Book> shoppingCartBooks();
-
 }

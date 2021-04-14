@@ -1,7 +1,9 @@
 package ecommerce.ecommerceserver.controller;
 
+import ecommerce.ecommerceserver.domain.ApplicationUser;
 import ecommerce.ecommerceserver.domain.Book;
 import ecommerce.ecommerceserver.domain.ShoppingCart;
+import ecommerce.ecommerceserver.services.ApplicationUserService;
 import ecommerce.ecommerceserver.services.BookService;
 import ecommerce.ecommerceserver.services.MapValidationErrorService;
 import ecommerce.ecommerceserver.services.ShoppingCardService;
@@ -25,18 +27,26 @@ public class ShoppingCartController {
     private final MapValidationErrorService mapValidationErrorService;
     private final BookService bookService;
     private final ShoppingCardService shoppingCardService;
+    private final ApplicationUserService applicationUserService;
 
-    @PostMapping("/addBook/{bookId}")
-    public ResponseEntity<?> addBookToShoppingCart(@Valid @RequestBody ShoppingCart shoppingCart
-            , BindingResult bindingResult
-            , @PathVariable UUID bookId) {
-        if (bindingResult != null) {
-            mapValidationErrorService.mapValidationService(bindingResult);
-        }
+    //Attention
+    @PostMapping("/addBook/{bookId}/{username}")
+    public ResponseEntity<?> addBookToShoppingCart(
+             BindingResult result
+            , @PathVariable UUID bookId
+            , @PathVariable String username) {
 
-        shoppingCardService.addBookToCard(bookId,shoppingCart);
+        ResponseEntity <?> errorMap = mapValidationErrorService.mapValidationService(result);
+        if(result.hasFieldErrors()) return errorMap;
 
-        return new ResponseEntity<>(shoppingCart, HttpStatus.OK);
+
+        return new ResponseEntity<>(shoppingCardService.addBookToCard(bookId,username), HttpStatus.OK);
+    }
+
+    //Attention
+    @PostMapping("/removeBook/{bookId}/{username}")
+    public ResponseEntity<?> removeBookFromShoppingCart(@PathVariable UUID bookId, @PathVariable String username){
+        return new ResponseEntity<>(shoppingCardService.removeBookFromCard(bookId,username),HttpStatus.OK);
     }
 
     @PostMapping("/save")
@@ -46,14 +56,10 @@ public class ShoppingCartController {
         ResponseEntity<?> errorMap = mapValidationErrorService.mapValidationService(bindingResult);
         if(bindingResult.hasFieldErrors()) return errorMap;
 
-
         return new ResponseEntity<ShoppingCart>(shoppingCardService.saveShoppingCart(bookList,principal.getName()),HttpStatus.CREATED);
     }
 
-    @GetMapping("/name/{name}")
-    public ResponseEntity<?> getShoppingCartByName(@PathVariable String name){
-        return new ResponseEntity<>(shoppingCardService.getShoppingCartByName(name),HttpStatus.OK) ;
-    }
+
 
     @GetMapping("/Id/{shoppingCartId}")
     public ResponseEntity<?> getShoppingCartById(@PathVariable UUID shoppingCartId){
@@ -65,9 +71,10 @@ public class ShoppingCartController {
         return new ResponseEntity<>(shoppingCardService.getShoppingCartBookList(shoppingCartId),HttpStatus.OK);
     }
 
-    @GetMapping({"books"})
-    public ResponseEntity<?> userShoppingCartBooks(){
-        return new ResponseEntity<>(shoppingCardService.userShoppingCartBooks(),HttpStatus.OK);
+    //Attention
+    @GetMapping({"books/{username}"})
+    public ResponseEntity<?> userShoppingCartBooks(@PathVariable String username){
+        return new ResponseEntity<>(shoppingCardService.userShoppingCart(username),HttpStatus.OK);
     }
 
 
