@@ -4,18 +4,29 @@ import ecommerce.ecommerceserver.domain.Book;
 import ecommerce.ecommerceserver.exceptions.NotFoundException;
 import ecommerce.ecommerceserver.repositories.BookRepository;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
 import java.util.List;
 import java.util.UUID;
+
 @Service
-@RequiredArgsConstructor
 public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
+    
+    
+    @Autowired
+    public BookServiceImpl(BookRepository bookRepository) {
+		super();
+		this.bookRepository = bookRepository;
+	}
 
-    @Override
+
+
+	@Override
     public Book getBookById(UUID id) {
 
         Book book = bookRepository.findById(id).orElseThrow(() -> new NotFoundException("Book Not Found"));

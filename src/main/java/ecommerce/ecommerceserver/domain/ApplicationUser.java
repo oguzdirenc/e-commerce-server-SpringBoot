@@ -1,5 +1,6 @@
 package ecommerce.ecommerceserver.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -56,6 +57,7 @@ public class ApplicationUser implements UserDetails {
     Set<Book> favoriteBookSet = new HashSet<>();
 
     @OneToOne(cascade = CascadeType.ALL)
+    @JsonIgnore
     @JoinColumn(name = "shopping_cart_id")
     ShoppingCart shoppingCart = new ShoppingCart();
 

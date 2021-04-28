@@ -20,7 +20,7 @@ public interface ShoppingCardService {
 
     ShoppingCart getShoppingCartByName(String shoppingCartName);
 
-    ShoppingCart userShoppingCart(String username);
+    List<Book> userShoppingCart(String username);
 
     List<Book> getShoppingCartBookList(UUID shoppingCartId);
 

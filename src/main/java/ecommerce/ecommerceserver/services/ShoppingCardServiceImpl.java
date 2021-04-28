@@ -97,12 +97,11 @@ public class ShoppingCardServiceImpl implements ShoppingCardService {
     }
 
     @Override
-    public ShoppingCart userShoppingCart(String username) {
+    public List<Book> userShoppingCart(String username) {
 
         ApplicationUser user = applicationUserService.getUserByUsername(username);
 
-
-        return user.getShoppingCart();
+        return user.getShoppingCart().getShoppingCartBooks();
     }
 
     @Override

@@ -30,10 +30,10 @@ public class ShoppingCart {
     private String shoppingCartName;
 
     @OneToOne(mappedBy = "shoppingCart" )
+    @JsonIgnore
     private ApplicationUser user;
 
     @ManyToMany
-    @JsonIgnore
     @JoinTable(name = "ShoppingCartBook",
             joinColumns ={@JoinColumn(name = "shopping_cart_id")},
             inverseJoinColumns = {@JoinColumn(name = "book_id")})

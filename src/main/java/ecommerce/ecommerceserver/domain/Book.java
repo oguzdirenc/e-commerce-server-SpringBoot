@@ -76,6 +76,7 @@ public class Book {
     private List<Author> bookAuthorsList =new ArrayList<>();
 
     @ManyToMany(mappedBy = "shoppingCartBooks",cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<ShoppingCart> bookShoppingCart = new ArrayList<>();
 
     @ManyToOne

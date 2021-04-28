@@ -7,6 +7,8 @@ import ecommerce.ecommerceserver.exceptions.NotFoundException;
 import ecommerce.ecommerceserver.exceptions.UsernameAlreadyExistsException;
 import ecommerce.ecommerceserver.repositories.ApplicationUserRepository;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -15,13 +17,21 @@ import java.util.Set;
 import java.util.UUID;
 
 @Service
-@RequiredArgsConstructor
 public class ApplicationUserServiceImpl implements ApplicationUserService {
 
     private final ApplicationUserRepository applicationUserRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    
+    
+    @Autowired
+    public ApplicationUserServiceImpl(ApplicationUserRepository applicationUserRepository,
+			BCryptPasswordEncoder bCryptPasswordEncoder) {
+		super();
+		this.applicationUserRepository = applicationUserRepository;
+		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+	}
 
-    @Override
+	@Override
     public ApplicationUser saveUser(ApplicationUser newUser) {
         try {
             newUser.setPassword(bCryptPasswordEncoder.encode(newUser.getPassword()));

@@ -30,14 +30,10 @@ public class ShoppingCartController {
     private final ApplicationUserService applicationUserService;
 
     //Attention
-    @PostMapping("/addBook/{bookId}/{username}")
+    @PostMapping("/addBook/{bookId}")
     public ResponseEntity<?> addBookToShoppingCart(
-             BindingResult result
-            , @PathVariable UUID bookId
-            , @PathVariable String username) {
-
-        ResponseEntity <?> errorMap = mapValidationErrorService.mapValidationService(result);
-        if(result.hasFieldErrors()) return errorMap;
+             @PathVariable UUID bookId
+            , @RequestParam("username") String username) {
 
 
         return new ResponseEntity<>(shoppingCardService.addBookToCard(bookId,username), HttpStatus.OK);
@@ -72,7 +68,7 @@ public class ShoppingCartController {
     }
 
     //Attention
-    @GetMapping({"books/{username}"})
+    @GetMapping({"/username/{username}"})
     public ResponseEntity<?> userShoppingCartBooks(@PathVariable String username){
         return new ResponseEntity<>(shoppingCardService.userShoppingCart(username),HttpStatus.OK);
     }
