@@ -1,4 +1,4 @@
-package ecommerce.ecommerceserver.services;
+package ecommerce.ecommerceserver.services.impl;
 
 import ecommerce.ecommerceserver.domain.ApplicationUser;
 import ecommerce.ecommerceserver.domain.Book;
@@ -6,6 +6,7 @@ import ecommerce.ecommerceserver.domain.ShoppingCart;
 import ecommerce.ecommerceserver.exceptions.NotFoundException;
 import ecommerce.ecommerceserver.exceptions.UsernameAlreadyExistsException;
 import ecommerce.ecommerceserver.repositories.ApplicationUserRepository;
+import ecommerce.ecommerceserver.services.ApplicationUserService;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Autowired;

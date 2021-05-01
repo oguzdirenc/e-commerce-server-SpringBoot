@@ -6,6 +6,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.Min;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.UUID;
 
@@ -23,7 +24,7 @@ public class Cargo {
     private UUID cargoId;
 
     @Min(value = 0,message = "Cargo price cannot be negative")
-    private Float cargoPrice;
+    private BigDecimal cargoPrice = BigDecimal.valueOf(9.99);
 
     @Future(message = "Please enter a valid delivery time")
     private Date cargoDeliveryTime;

@@ -1,7 +1,7 @@
 package ecommerce.ecommerceserver.security;
 
 import ecommerce.ecommerceserver.domain.ApplicationUser;
-import ecommerce.ecommerceserver.services.CustomUserDetailServiceImpl;
+import ecommerce.ecommerceserver.services.impl.CustomUserDetailServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;

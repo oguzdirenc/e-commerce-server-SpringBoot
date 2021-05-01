@@ -1,8 +1,10 @@
-package ecommerce.ecommerceserver.services;
+package ecommerce.ecommerceserver.services.impl;
 
 import ecommerce.ecommerceserver.domain.Book;
 import ecommerce.ecommerceserver.domain.Category;
 import ecommerce.ecommerceserver.repositories.CategoryRepository;
+import ecommerce.ecommerceserver.services.BookService;
+import ecommerce.ecommerceserver.services.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;

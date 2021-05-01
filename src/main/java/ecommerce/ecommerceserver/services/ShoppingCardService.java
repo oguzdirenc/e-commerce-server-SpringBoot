@@ -2,8 +2,11 @@ package ecommerce.ecommerceserver.services;
 
 import ecommerce.ecommerceserver.domain.Book;
 import ecommerce.ecommerceserver.domain.ShoppingCart;
+import ecommerce.ecommerceserver.response.BookSizeResponse;
+import ecommerce.ecommerceserver.response.TotalPriceResponse;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public interface ShoppingCardService {
@@ -20,11 +23,15 @@ public interface ShoppingCardService {
 
     ShoppingCart getShoppingCartByName(String shoppingCartName);
 
-    List<Book> userShoppingCart(String username);
+    List<BookSizeResponse> userShoppingCart(String username);
 
     List<Book> getShoppingCartBookList(UUID shoppingCartId);
 
     ShoppingCart getShoppingCartById(UUID shoppingCartId);
+
+    TotalPriceResponse getTotalPrice(String username);
+
+    List<Book> decreaseBookOrderFromCard(UUID bookId,String username);
 
 
 }

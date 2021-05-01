@@ -1,8 +1,10 @@
 package ecommerce.ecommerceserver.controller;
 
-import ecommerce.ecommerceserver.domain.ApplicationUser;
+
 import ecommerce.ecommerceserver.domain.Book;
 import ecommerce.ecommerceserver.domain.ShoppingCart;
+import ecommerce.ecommerceserver.response.BookSizeResponse;
+import ecommerce.ecommerceserver.response.TotalPriceResponse;
 import ecommerce.ecommerceserver.services.ApplicationUserService;
 import ecommerce.ecommerceserver.services.BookService;
 import ecommerce.ecommerceserver.services.MapValidationErrorService;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -33,16 +36,16 @@ public class ShoppingCartController {
     @PostMapping("/addBook/{bookId}")
     public ResponseEntity<?> addBookToShoppingCart(
              @PathVariable UUID bookId
-            , @RequestParam("username") String username) {
+            , Principal principal) {
 
 
-        return new ResponseEntity<>(shoppingCardService.addBookToCard(bookId,username), HttpStatus.OK);
+        return new ResponseEntity<>(shoppingCardService.addBookToCard(bookId, principal.getName()), HttpStatus.OK);
     }
 
     //Attention
-    @PostMapping("/removeBook/{bookId}/{username}")
-    public ResponseEntity<?> removeBookFromShoppingCart(@PathVariable UUID bookId, @PathVariable String username){
-        return new ResponseEntity<>(shoppingCardService.removeBookFromCard(bookId,username),HttpStatus.OK);
+    @GetMapping("/removeBook/{bookId}")
+    public ResponseEntity<?> removeBookFromShoppingCart(@PathVariable UUID bookId, Principal principal){
+        return new ResponseEntity<>(shoppingCardService.decreaseBookOrderFromCard(bookId, principal.getName()),HttpStatus.OK);
     }
 
     @PostMapping("/save")
@@ -67,10 +70,15 @@ public class ShoppingCartController {
         return new ResponseEntity<>(shoppingCardService.getShoppingCartBookList(shoppingCartId),HttpStatus.OK);
     }
 
-    //Attention
-    @GetMapping({"/username/{username}"})
-    public ResponseEntity<?> userShoppingCartBooks(@PathVariable String username){
-        return new ResponseEntity<>(shoppingCardService.userShoppingCart(username),HttpStatus.OK);
+
+    @GetMapping("/books")
+    public ResponseEntity<List<BookSizeResponse>> userShoppingCartBooks(Principal principal){
+        return new ResponseEntity<>(shoppingCardService.userShoppingCart(principal.getName()),HttpStatus.OK);
+    }
+
+    @GetMapping("/totalPrice")
+    public ResponseEntity<TotalPriceResponse> getTotalPrice(Principal principal){
+        return new ResponseEntity<>(shoppingCardService.getTotalPrice(principal.getName()),HttpStatus.OK);
     }
 
 

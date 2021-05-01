@@ -1,4 +1,4 @@
-package ecommerce.ecommerceserver.services;
+package ecommerce.ecommerceserver.services.impl;
 
 import ecommerce.ecommerceserver.domain.ApplicationUser;
 import ecommerce.ecommerceserver.repositories.ApplicationUserRepository;

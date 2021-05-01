@@ -1,4 +1,4 @@
-package ecommerce.ecommerceserver.services;
+package ecommerce.ecommerceserver.services.impl;
 
 import ecommerce.ecommerceserver.domain.ApplicationUser;
 import ecommerce.ecommerceserver.domain.Book;
@@ -7,6 +7,8 @@ import ecommerce.ecommerceserver.exceptions.NotFoundException;
 import ecommerce.ecommerceserver.repositories.ApplicationUserRepository;
 import ecommerce.ecommerceserver.repositories.BookRepository;
 import ecommerce.ecommerceserver.repositories.CommentRepository;
+import ecommerce.ecommerceserver.services.BookService;
+import ecommerce.ecommerceserver.services.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

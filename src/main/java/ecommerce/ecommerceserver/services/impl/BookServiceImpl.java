@@ -1,8 +1,9 @@
-package ecommerce.ecommerceserver.services;
+package ecommerce.ecommerceserver.services.impl;
 
 import ecommerce.ecommerceserver.domain.Book;
 import ecommerce.ecommerceserver.exceptions.NotFoundException;
 import ecommerce.ecommerceserver.repositories.BookRepository;
+import ecommerce.ecommerceserver.services.BookService;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Autowired;
