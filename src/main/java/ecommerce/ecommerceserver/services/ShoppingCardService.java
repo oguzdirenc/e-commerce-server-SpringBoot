@@ -11,27 +11,25 @@ import java.util.UUID;
 
 public interface ShoppingCardService {
 
+    //2
     ShoppingCart addBookToCard(UUID bookID, String username);
 
-    String removeBookFromCard(UUID bookId,String username);
-
-    Book updateBookInCard(Book book, UUID shoppingCartID);
 
     void setPrice(ShoppingCart shoppingCart);
 
-    ShoppingCart saveShoppingCart(List<Book> bookList,String username);
-
-    ShoppingCart getShoppingCartByName(String shoppingCartName);
-
+    //3
     List<BookSizeResponse> userShoppingCart(String username);
 
-    List<Book> getShoppingCartBookList(UUID shoppingCartId);
 
     ShoppingCart getShoppingCartById(UUID shoppingCartId);
 
+    //4
     TotalPriceResponse getTotalPrice(String username);
 
+    //1
     List<Book> decreaseBookOrderFromCard(UUID bookId,String username);
+
+    List<Book> removeBookFromCart(String username,UUID bookId);
 
 
 }

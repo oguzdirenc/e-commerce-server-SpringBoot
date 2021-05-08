@@ -43,22 +43,6 @@ public class ApplicationUserServiceImpl implements ApplicationUserService {
         }
     }
 
-    @Override
-    public ApplicationUser getUserById(UUID id) {
-
-        return null;
-
-    }
-
-    @Override
-    public Set<Book> getFavoriteBooksByUserId(UUID id) {
-
-        ApplicationUser applicationUser= applicationUserRepository
-                .findById(id)
-                .orElseThrow(() -> new NotFoundException("User Not Found"));
-
-        return applicationUser.getFavoriteBookSet();
-    }
 
     @Override
     public ApplicationUser getUserByUsername(String username) {
@@ -72,14 +56,4 @@ public class ApplicationUserServiceImpl implements ApplicationUserService {
         return user.getShoppingCart();
     }
 
-    @Override
-    public ApplicationUser saveApplicationUser(ApplicationUser user) {
-
-        return null;
-    }
-
-    @Override
-    public String deleteApplicationUserById(UUID id) {
-        return null;
-    }
 }

@@ -93,21 +93,6 @@ public class BookServiceImpl implements BookService {
         return bookRepository.save(book);
     }
 
-    @Override
-    public Boolean addToShoppingCart(UUID bookId) {
-        Book book = getBookById(bookId);
-        if(book.getOrderSize() == 0) {
-            book.setOrderSize(1);
-            bookRepository.save(book);
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public Book getBookByName(String bookName) {
-        return bookRepository.findByBookName(bookName).orElseThrow(() -> new NotFoundException("Book not found"));
-    }
 
     @Override
     public List<Book> getAllBooks() {

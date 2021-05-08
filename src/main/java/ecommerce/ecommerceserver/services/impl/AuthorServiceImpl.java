@@ -33,7 +33,6 @@ public class AuthorServiceImpl implements AuthorService {
 
         Book book1 = bookRepository.findById(bookId).get();
 
-
         for (Author author : authorList) {
 
             if(author.getAuthorName() != null && !author.getAuthorName().equals("")){

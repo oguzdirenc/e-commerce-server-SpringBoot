@@ -21,9 +21,5 @@ public interface BookService {
 
     Book deleteBookOrder(UUID bookId);
 
-    Boolean addToShoppingCart(UUID bookId);
-
-    Book getBookByName(String bookName);
-
     List<Book> getAllBooks();
 }

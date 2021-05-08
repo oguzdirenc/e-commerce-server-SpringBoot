@@ -34,11 +34,6 @@ public class ApplicationUserController {
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationManager authenticationManager;
 
-    @GetMapping("/user/{id}")
-    public ResponseEntity<ApplicationUser> name(@PathVariable String id){
-
-        return new ResponseEntity<>(applicationUserService.getUserById(UUID.fromString(id)), HttpStatus.OK);
-    }
 
 
     @PostMapping("/login")

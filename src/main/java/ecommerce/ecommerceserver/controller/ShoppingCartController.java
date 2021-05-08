@@ -12,13 +12,11 @@ import ecommerce.ecommerceserver.services.ShoppingCardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+
 import java.security.Principal;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -28,57 +26,39 @@ import java.util.UUID;
 public class ShoppingCartController {
 
     private final MapValidationErrorService mapValidationErrorService;
-    private final BookService bookService;
     private final ShoppingCardService shoppingCardService;
-    private final ApplicationUserService applicationUserService;
 
-    //Attention
+    //3
     @PostMapping("/addBook/{bookId}")
     public ResponseEntity<?> addBookToShoppingCart(
              @PathVariable UUID bookId
             , Principal principal) {
 
-
         return new ResponseEntity<>(shoppingCardService.addBookToCard(bookId, principal.getName()), HttpStatus.OK);
     }
 
-    //Attention
+    //2
     @GetMapping("/removeBook/{bookId}")
-    public ResponseEntity<?> removeBookFromShoppingCart(@PathVariable UUID bookId, Principal principal){
+    public ResponseEntity<?> decreaseBookOrderFromShoppingCart(@PathVariable UUID bookId, Principal principal){
         return new ResponseEntity<>(shoppingCardService.decreaseBookOrderFromCard(bookId, principal.getName()),HttpStatus.OK);
     }
 
-    @PostMapping("/save")
-    public ResponseEntity<?> saveShoppingCart(@Valid @RequestBody List<Book> bookList
-           , BindingResult bindingResult, Principal principal){
 
-        ResponseEntity<?> errorMap = mapValidationErrorService.mapValidationService(bindingResult);
-        if(bindingResult.hasFieldErrors()) return errorMap;
-
-        return new ResponseEntity<ShoppingCart>(shoppingCardService.saveShoppingCart(bookList,principal.getName()),HttpStatus.CREATED);
-    }
-
-
-
-    @GetMapping("/Id/{shoppingCartId}")
-    public ResponseEntity<?> getShoppingCartById(@PathVariable UUID shoppingCartId){
-        return new ResponseEntity<>(shoppingCardService.getShoppingCartBookList(shoppingCartId),HttpStatus.OK);
-    }
-
-    @GetMapping({"/books/{shoppingCartId}"})
-    public ResponseEntity<?> getShoppingCartBooks(@PathVariable UUID shoppingCartId){
-        return new ResponseEntity<>(shoppingCardService.getShoppingCartBookList(shoppingCartId),HttpStatus.OK);
-    }
-
-
+    //1
     @GetMapping("/books")
     public ResponseEntity<List<BookSizeResponse>> userShoppingCartBooks(Principal principal){
         return new ResponseEntity<>(shoppingCardService.userShoppingCart(principal.getName()),HttpStatus.OK);
     }
 
+    //4
     @GetMapping("/totalPrice")
     public ResponseEntity<TotalPriceResponse> getTotalPrice(Principal principal){
         return new ResponseEntity<>(shoppingCardService.getTotalPrice(principal.getName()),HttpStatus.OK);
+    }
+
+    @PostMapping("/removeAll/{bookId}")
+    public ResponseEntity<List<Book>> removeBookFromCart(Principal principal, @PathVariable UUID bookId){
+        return new ResponseEntity<>(shoppingCardService.removeBookFromCart(principal.getName(), bookId),HttpStatus.OK);
     }
 
 

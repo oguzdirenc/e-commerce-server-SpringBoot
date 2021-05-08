@@ -5,7 +5,6 @@ import ecommerce.ecommerceserver.domain.Book;
 import ecommerce.ecommerceserver.domain.Cargo;
 import ecommerce.ecommerceserver.domain.ShoppingCart;
 import ecommerce.ecommerceserver.exceptions.NotFoundException;
-import ecommerce.ecommerceserver.repositories.BookRepository;
 import ecommerce.ecommerceserver.repositories.ShoppingCartRepository;
 import ecommerce.ecommerceserver.response.BookSizeResponse;
 import ecommerce.ecommerceserver.response.TotalPriceResponse;
@@ -17,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.groupingBy;
 
@@ -39,40 +39,7 @@ public class ShoppingCardServiceImpl implements ShoppingCardService {
         return shoppingCart;
     }
 
-    //Significant
-    @Override
-    public String removeBookFromCard(UUID bookId,String username) {
 
-        Book bookToRemove = null;
-        ShoppingCart shoppingCart = applicationUserService.getShoppingCartByUsername(username);
-
-        for (Book book : shoppingCart.getShoppingCartBooks() ){
-            if(book.getBookId() == bookId)   bookToRemove = book;
-        }
-        if(bookToRemove!=null) {
-            shoppingCart.getShoppingCartBooks().remove(bookToRemove);
-            setPrice(shoppingCart);
-        }else throw new NotFoundException("Book not found");
-
-        return "Book Removed";
-    }
-
-    @Override
-    public Book updateBookInCard(Book book, UUID shoppingCartId) {
-
-        ShoppingCart shoppingCart = shoppingCartRepository.findById(shoppingCartId)
-                .orElseThrow(() ->new NotFoundException("Shopping Cart not found"));
-
-
-        for(Book bookToUpdate : shoppingCart.getShoppingCartBooks()){
-            if(bookToUpdate.getBookId() == book.getBookId()){
-                bookToUpdate.setOrderSize(book.getOrderSize());
-                setPrice(shoppingCart);
-                return bookToUpdate;
-            }
-        }
-        return book;
-    }
 
     @Override
     public void setPrice(ShoppingCart shoppingCart) {
@@ -86,22 +53,6 @@ public class ShoppingCardServiceImpl implements ShoppingCardService {
 
     }
 
-    @Override
-    public ShoppingCart saveShoppingCart(List<Book> bookList,String username) {
-
-            ApplicationUser user = applicationUserService.getUserByUsername(username);
-            ShoppingCart shoppingCart = user.getShoppingCart();
-            shoppingCart.setShoppingCartBooks(bookList);
-            shoppingCart.setShoppingCartName(username);
-            return shoppingCartRepository.save(shoppingCart);
-    }
-
-    @Override
-    public ShoppingCart getShoppingCartByName(String shoppingCartName) {
-        return shoppingCartRepository.getShoppingCartByName(shoppingCartName)
-                .orElseThrow(() -> new NotFoundException("Shopping cart not found"));
-
-    }
 
     @Override
     public List<BookSizeResponse> userShoppingCart(String username) {
@@ -127,18 +78,7 @@ public class ShoppingCardServiceImpl implements ShoppingCardService {
         return bookSizeResponseList;
     }
 
-    @Override
-    public List<Book> getShoppingCartBookList(UUID shoppingCartId) {
-        List<Book> shoppingCartBooks = new ArrayList<>();
 
-        ShoppingCart shoppingCart = getShoppingCartById(shoppingCartId);
-
-        for(Book book : shoppingCart.getShoppingCartBooks()){
-            shoppingCartBooks.add(book);
-        }
-
-        return shoppingCartBooks;
-    }
 
     @Override
     public ShoppingCart getShoppingCartById(UUID shoppingCartId) {
@@ -180,6 +120,22 @@ public class ShoppingCardServiceImpl implements ShoppingCardService {
         Book book = bookService.getBookById(bookId);
         var shoppingCart = user.getShoppingCart();
         shoppingCart.getShoppingCartBooks().remove(book);
+        shoppingCartRepository.save(shoppingCart);
+
+        return user.getShoppingCart().getShoppingCartBooks();
+    }
+
+    @Override
+    public List<Book> removeBookFromCart(String username, UUID bookId) {
+
+        var user = applicationUserService.getUserByUsername(username);
+        var bookOrders = user.getShoppingCart().getShoppingCartBooks();
+        var bookList = bookOrders.stream()
+                .filter(book -> !book.getBookId().equals(bookId) )
+                .collect(Collectors.toList());
+
+        ShoppingCart shoppingCart = user.getShoppingCart();
+        shoppingCart.setShoppingCartBooks(bookList);
         shoppingCartRepository.save(shoppingCart);
 
         return user.getShoppingCart().getShoppingCartBooks();

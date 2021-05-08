@@ -23,10 +23,10 @@ public class BookController {
     private final MapValidationErrorService mapValidationErrorService;
 
     @PostMapping("/save")
-    public ResponseEntity<?> saveBook(@Valid @RequestBody Book book , BindingResult result){
+    public ResponseEntity<?> saveBook(@Valid @RequestBody Book book){
 
-        ResponseEntity<?> errorMap= mapValidationErrorService.mapValidationService(result);
-        if (result.hasFieldErrors()) return errorMap;
+        /*ResponseEntity<?> errorMap= mapValidationErrorService.mapValidationService(result);
+        if (result.hasFieldErrors()) return errorMap;*/
 
         return new ResponseEntity<>(bookService.saveBook(book), HttpStatus.CREATED);
     }
@@ -55,25 +55,10 @@ public class BookController {
         return new ResponseEntity<>(allBooks,HttpStatus.OK);
     }
 
-    @GetMapping("/id/{bookId}")
-    public ResponseEntity<?> getBook(@PathVariable UUID bookId){
-
-        return new ResponseEntity<Book>(bookService.getBookById(bookId),HttpStatus.OK);
-    }
-
     @DeleteMapping("delete/{bookId}")
     public ResponseEntity<?> deleteBook(@PathVariable UUID bookId){
         return new ResponseEntity<>(bookService.deleteBookById(bookId),HttpStatus.OK);
     }
 
-    @GetMapping("/name/{bookName}")
-    public ResponseEntity<?> getBookByName(@PathVariable String bookName){
-        return new ResponseEntity<>(bookService.getBookByName(bookName),HttpStatus.OK);
-    }
-
-    @GetMapping("/order/{bookId}")
-    public  ResponseEntity<?> addToShoppingCart(@PathVariable UUID bookId){
-        return new ResponseEntity<Boolean>(bookService.addToShoppingCart(bookId),HttpStatus.OK);
-    }
 
 }
