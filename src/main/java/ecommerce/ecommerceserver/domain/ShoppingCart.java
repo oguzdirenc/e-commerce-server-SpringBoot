@@ -39,7 +39,5 @@ public class ShoppingCart {
             inverseJoinColumns = {@JoinColumn(name = "book_id")})
     private List<Book> shoppingCartBooks = new ArrayList<>();
 
-    @OneToOne(mappedBy = "shoppingCart")
-    private BookOrder bookOrder;
 
 }
