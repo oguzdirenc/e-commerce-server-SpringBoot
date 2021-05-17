@@ -22,24 +22,18 @@ public class Comment {
     private UUID commentId;
 
 
-    @NotBlank(message = "Comment title should not be blank")
-    private String commentTitle;
-
     @NotBlank(message = "Comment description should not be blank")
     private String commentDescription;
 
-    @NotBlank(message = "Rate field should not be blank")
+
     @Range(min = 0,max = 5,message = "Please enter a valid rate")
     private Integer rate;
 
-    @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "application_user_id")
     ApplicationUser user ;
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "book_id")
     Book book;
 
 

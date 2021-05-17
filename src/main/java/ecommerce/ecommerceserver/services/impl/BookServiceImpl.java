@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -37,11 +39,11 @@ public class BookServiceImpl implements BookService {
 
 
     @Override
-    public void saveBookRate(Integer commentRate, UUID bookId) {
+    public void saveBookRate(BigDecimal commentRate, UUID bookId) {
         Book book= getBookById(bookId);
-        book.setTotalRate(book.getTotalRate()+commentRate);
-        book.setCommentCount(book.getCommentCount()+1);
-        book.setBookRate((float) (book.getTotalRate()/book.getCommentCount()));
+        book.setTotalRate(book.getTotalRate().add(commentRate));
+        book.setCommentCount(book.getCommentCount().add(BigDecimal.valueOf(1)));
+        book.setBookRate(book.getTotalRate().divide(book.getCommentCount(),BigDecimal.ROUND_HALF_UP));
     }
 
     @Override
@@ -91,6 +93,12 @@ public class BookServiceImpl implements BookService {
         book.setOrderSize(0);
 
         return bookRepository.save(book);
+    }
+
+    @Override
+    public List<Book> getSearchedBooks(String search) {
+
+        return bookRepository.findByBookName(search);
     }
 
 

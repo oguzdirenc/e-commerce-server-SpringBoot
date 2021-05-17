@@ -55,6 +55,11 @@ public class BookController {
         return new ResponseEntity<>(allBooks,HttpStatus.OK);
     }
 
+    @GetMapping("/search/{search}")
+    public ResponseEntity<?> getBookForSearch(@PathVariable String search){
+        return new ResponseEntity<>(bookService.getSearchedBooks(search),HttpStatus.OK);
+    }
+
     @DeleteMapping("delete/{bookId}")
     public ResponseEntity<?> deleteBook(@PathVariable UUID bookId){
         return new ResponseEntity<>(bookService.deleteBookById(bookId),HttpStatus.OK);

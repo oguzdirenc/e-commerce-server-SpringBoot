@@ -7,11 +7,14 @@ import ecommerce.ecommerceserver.exceptions.NotFoundException;
 import ecommerce.ecommerceserver.repositories.ApplicationUserRepository;
 import ecommerce.ecommerceserver.repositories.BookRepository;
 import ecommerce.ecommerceserver.repositories.CommentRepository;
+import ecommerce.ecommerceserver.services.ApplicationUserService;
 import ecommerce.ecommerceserver.services.BookService;
 import ecommerce.ecommerceserver.services.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -19,35 +22,48 @@ import java.util.UUID;
 public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository commentRepository;
+    private final ApplicationUserService applicationUserService;
     private final ApplicationUserRepository applicationUserRepository;
     private final BookRepository bookRepository;
     private final BookService bookService;
 
     @Override
     public Comment getCommentsByBookId(UUID id) {
-        Comment comment =  commentRepository
+        return   commentRepository
                 .findById(id)
                 .orElseThrow(() -> new NotFoundException("Comment Not Found"));
 
-        return comment;
     }
 
     @Override
-    public Comment saveComment(Comment comment, UUID userId,UUID bookId) {
+    public Comment saveComment(Comment comment, String username,UUID bookId) {
 
-        ApplicationUser user= applicationUserRepository
-                .findById(userId)
-                .orElseThrow(() -> new NotFoundException("User Not Found"));
+        var newComment = Comment.builder()
+                .commentDescription(comment.getCommentDescription())
+                .rate(comment.getRate()).build();
+
+        ApplicationUser user= applicationUserService.getUserByUsername(username);
 
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new NotFoundException("Book Not Found"));
 
-        bookService.saveBookRate(comment.getRate(),book.getBookId());
 
-        comment.setBook(book);
-        comment.setUser(user);
+        bookService.saveBookRate(BigDecimal.valueOf(newComment.getRate()),book.getBookId());
+        book.getBookCommentList().add(newComment);
+      //  bookRepository.save(book);
 
-        return commentRepository.save(comment);
+//        user.getUserCommentList().add(newComment);
+//        applicationUserRepository.save(user);
+
+        newComment.setBook(book);
+        newComment.setUser(user);
+
+
+        applicationUserRepository.save(user);
+        bookRepository.save(book);
+
+
+        return commentRepository.save(newComment);
 
     }
 
@@ -59,5 +75,12 @@ public class CommentServiceImpl implements CommentService {
         commentRepository.delete(comment);
 
         return "Comment Deleted";
+    }
+
+    @Override
+    public List<Comment> getBookComments(UUID bookId) {
+
+        var book= bookService.getBookById(bookId);
+        return book.getBookCommentList();
     }
 }

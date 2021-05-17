@@ -11,6 +11,5 @@ import java.util.UUID;
 public interface BookRepository extends JpaRepository<Book, UUID> {
 
     @Query("select x from Book x where x.bookName=:name")
-    Optional<Book> findByBookName(String name);
-
+    List<Book> findByBookName(String name);
 }

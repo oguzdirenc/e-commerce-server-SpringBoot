@@ -50,6 +50,7 @@ public class ApplicationUser implements UserDetails {
     @PreUpdate
     protected void onUpdate() {this.updatedAt = new Date();}*/
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     List<Comment> userCommentList = new ArrayList<>();
 

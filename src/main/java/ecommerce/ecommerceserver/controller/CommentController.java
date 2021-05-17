@@ -10,6 +10,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -21,17 +23,22 @@ public class CommentController {
     private final MapValidationErrorService mapValidationErrorService;
     private final CommentService commentService;
 
-    @PostMapping("/new/{userId}/{bookId}")
+    @PostMapping("/new/{bookId}")
     public ResponseEntity<?> addNewComment(@Valid @RequestBody Comment comment
             , BindingResult bindingResult
-            , @PathVariable UUID userId
-            ,@PathVariable UUID bookId){
+            , Principal principal
+            , @PathVariable UUID bookId){
 
         ResponseEntity<?> errorMap = mapValidationErrorService.mapValidationService(bindingResult);
         if(errorMap != null) return errorMap;
 
-        Comment comment1 = commentService.saveComment(comment,userId,bookId);
+        Comment comment1 = commentService.saveComment(comment,principal.getName(),bookId);
         return new ResponseEntity<>(comment1, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/book/{bookId}")
+    public ResponseEntity<List<Comment>> getBookComments(@PathVariable UUID bookId){
+        return new ResponseEntity<>(commentService.getBookComments(bookId),HttpStatus.OK);
     }
 
 }
