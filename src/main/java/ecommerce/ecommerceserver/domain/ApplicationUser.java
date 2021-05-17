@@ -23,17 +23,17 @@ public class ApplicationUser implements UserDetails {
     @Column(columnDefinition = "BINARY(16)")
     private UUID applicationUserId;
 
-    @NotBlank(message = "Username should not be blank")
-    @Email(message = "Username should be an e-mail")
+    @NotBlank(message = "Kullanıcı adı boş bırakılamaz")
+    @Email(message = "Kullanıcı adı e-mail adresi olmalıdır")
     @Column(unique = true)
     private String username;
 
-    @NotBlank(message = "Name field should not be blank")
+    @NotBlank(message = "Lütfen adınızı giriniz ")
     private String fullName;
 
     private String userAddress;
 
-    @NotBlank(message = "Password field should not be blank")
+    @NotBlank(message = "Şifre alanı boş bırakılamaz")
     private String password;
 
     @Transient

@@ -1,10 +1,12 @@
 package ecommerce.ecommerceserver.controller;
 
 import ecommerce.ecommerceserver.request.OrderRequest;
+import ecommerce.ecommerceserver.services.MapValidationErrorService;
 import ecommerce.ecommerceserver.services.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -17,9 +19,13 @@ import java.security.Principal;
 public class OrderController {
 
     private final OrderService orderService;
+    private final MapValidationErrorService mapValidationErrorService;
 
     @PostMapping("/save")
-    public ResponseEntity<?> saveOrder(@Valid Principal principal, @RequestBody OrderRequest orderRequest){
-        return new ResponseEntity<>(orderService.saveOrder(orderRequest, principal.getName()), HttpStatus.OK);
+    public ResponseEntity<?> saveOrder(@Valid Principal principal, @RequestBody OrderRequest orderRequest
+           ){
+
+
+        return new ResponseEntity<>(orderService.saveOrder(orderRequest, principal.getName()), HttpStatus.CREATED);
     }
 }
