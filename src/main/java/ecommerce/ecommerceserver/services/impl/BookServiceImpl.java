@@ -1,10 +1,11 @@
 package ecommerce.ecommerceserver.services.impl;
 
 import ecommerce.ecommerceserver.domain.Book;
+import ecommerce.ecommerceserver.domain.Category;
 import ecommerce.ecommerceserver.exceptions.NotFoundException;
 import ecommerce.ecommerceserver.repositories.BookRepository;
+import ecommerce.ecommerceserver.request.BookFiltersRequest;
 import ecommerce.ecommerceserver.services.BookService;
-import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,8 +13,9 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Collectors;
 
 @Service
 public class BookServiceImpl implements BookService {
@@ -106,5 +108,40 @@ public class BookServiceImpl implements BookService {
     public List<Book> getAllBooks() {
 
         return bookRepository.findAll();
+    }
+
+    public boolean isCategoryInclude(List<Category> categoryList, String filter) {
+        boolean isInclude = false;
+
+        if (filter.equals("Kategori") || filter.equals("")) {
+            isInclude = true;
+        } else {
+            for (Category category : categoryList) {
+                if (category.getCategoryDescription().equals(filter)) {
+                    isInclude = true;
+                    break;
+                }
+            }
+        }
+
+        return isInclude;
+    }
+
+    public boolean isInPriceRange(Book book, BookFiltersRequest bookFiltersRequest){
+        return book.getBookPrice().longValue() <= bookFiltersRequest.getMaxPrice() && book.getBookPrice().longValue() >= bookFiltersRequest.getMinPrice();
+    }
+
+    @Override
+    public List<Book> getFilteredBooks(BookFiltersRequest bookFiltersRequest) {
+        var bookList = getAllBooks();
+
+        if(bookFiltersRequest.getMaxPrice()==null)bookFiltersRequest.setMaxPrice((long) 999.99);
+        if(bookFiltersRequest.getMinPrice()==null)bookFiltersRequest.setMinPrice((long) 0.00);
+
+
+       return bookList.stream()
+                .filter(book -> isCategoryInclude(book.getCategoryBooksList(),bookFiltersRequest.getCategory()))
+                .filter(book -> isInPriceRange(book,bookFiltersRequest))
+                .collect(Collectors.toList());
     }
 }

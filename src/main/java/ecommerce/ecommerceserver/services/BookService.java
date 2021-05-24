@@ -1,6 +1,7 @@
 package ecommerce.ecommerceserver.services;
 
 import ecommerce.ecommerceserver.domain.Book;
+import ecommerce.ecommerceserver.request.BookFiltersRequest;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -26,4 +27,6 @@ public interface BookService {
     List<Book> getSearchedBooks(String search);
 
     List<Book> getAllBooks();
+
+    List<Book> getFilteredBooks(BookFiltersRequest bookFiltersRequest);
 }

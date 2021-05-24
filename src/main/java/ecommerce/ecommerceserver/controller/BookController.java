@@ -1,6 +1,7 @@
 package ecommerce.ecommerceserver.controller;
 
 import ecommerce.ecommerceserver.domain.Book;
+import ecommerce.ecommerceserver.request.BookFiltersRequest;
 import ecommerce.ecommerceserver.services.BookService;
 import ecommerce.ecommerceserver.services.MapValidationErrorService;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +30,11 @@ public class BookController {
         if (result.hasFieldErrors()) return errorMap;*/
 
         return new ResponseEntity<>(bookService.saveBook(book), HttpStatus.CREATED);
+    }
+
+    @PostMapping("/filtered")
+    public ResponseEntity<?> getFilteredBooks(@RequestBody BookFiltersRequest bookFiltersRequest){
+        return new ResponseEntity<List<Book>>(bookService.getFilteredBooks(bookFiltersRequest),HttpStatus.OK);
     }
 
     @PostMapping("/update")
