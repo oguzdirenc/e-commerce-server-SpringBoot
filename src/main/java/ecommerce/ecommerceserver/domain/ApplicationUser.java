@@ -3,6 +3,7 @@ package ecommerce.ecommerceserver.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
@@ -33,6 +34,8 @@ public class ApplicationUser implements UserDetails {
 
     private String userAddress;
 
+    private String roles="";
+
     @NotBlank(message = "Şifre alanı boş bırakılamaz")
     private String password;
 
@@ -62,12 +65,24 @@ public class ApplicationUser implements UserDetails {
     @JoinColumn(name = "shopping_cart_id")
     ShoppingCart shoppingCart = new ShoppingCart();
 
-
-
+    public List<String> getRoleList(){
+        if(this.roles.length()>0){
+            return Arrays.asList(this.roles.split(","));
+        }
+        return new ArrayList<>();
+    }
 
     @Override
+    @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        List<GrantedAuthority> authorities = new ArrayList<>();
+
+        this.getRoleList().forEach(r->{
+            GrantedAuthority authority =new SimpleGrantedAuthority("ROLE_"+r);
+            authorities.add(authority);
+        });
+
+        return authorities;
     }
 
     @Override

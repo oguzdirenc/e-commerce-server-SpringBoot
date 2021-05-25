@@ -15,8 +15,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import static ecommerce.ecommerceserver.security.SecurityConstants.H2_URL;
-import static ecommerce.ecommerceserver.security.SecurityConstants.SIGN_UP_URL;
+import static ecommerce.ecommerceserver.security.SecurityConstants.*;
 
 @Configuration
 @EnableWebSecurity
@@ -65,12 +64,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.html",
                         "/**/*.css",
                         "/**/*.js").permitAll()
-                .antMatchers(SIGN_UP_URL)
-                .permitAll()
-                .antMatchers(H2_URL)
-                .permitAll()
-                .anyRequest()
-                .authenticated();
+                .antMatchers(SIGN_UP_URL).permitAll()
+                .antMatchers(H2_URL).permitAll()
+                .antMatchers(ADMIN_URL).hasRole("ADMIN")
+                .anyRequest().authenticated();
 
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
