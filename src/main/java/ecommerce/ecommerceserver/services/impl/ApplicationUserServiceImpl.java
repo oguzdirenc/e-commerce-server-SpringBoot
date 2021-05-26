@@ -6,6 +6,7 @@ import ecommerce.ecommerceserver.domain.ShoppingCart;
 import ecommerce.ecommerceserver.exceptions.NotFoundException;
 import ecommerce.ecommerceserver.exceptions.UsernameAlreadyExistsException;
 import ecommerce.ecommerceserver.repositories.ApplicationUserRepository;
+import ecommerce.ecommerceserver.request.UserUpdateRequest;
 import ecommerce.ecommerceserver.services.ApplicationUserService;
 import lombok.RequiredArgsConstructor;
 
@@ -41,6 +42,17 @@ public class ApplicationUserServiceImpl implements ApplicationUserService {
         }catch (Exception err) {
             throw new UsernameAlreadyExistsException("Kullanıcı adı '" + newUser.getUsername() + "' zaten kayıtlı");
         }
+    }
+
+    @Override
+    public ApplicationUser updateUser(String username, UserUpdateRequest userUpdateRequest) {
+        ApplicationUser user = getUserByUsername(username);
+
+        user.setFullName(userUpdateRequest.getFullName());
+        user.setUserPhoneNumber(userUpdateRequest.getPhoneNumber());
+        user.setUserAddress(userUpdateRequest.getAddress());
+
+        return applicationUserRepository.save(user);
     }
 
 

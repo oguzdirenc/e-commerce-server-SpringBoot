@@ -3,6 +3,7 @@ package ecommerce.ecommerceserver.controller;
 import ecommerce.ecommerceserver.domain.ApplicationUser;
 import ecommerce.ecommerceserver.payload.JWTLoginSuccessResponse;
 import ecommerce.ecommerceserver.payload.LoginRequest;
+import ecommerce.ecommerceserver.request.UserUpdateRequest;
 import ecommerce.ecommerceserver.security.JwtTokenProvider;
 import ecommerce.ecommerceserver.services.ApplicationUserService;
 import ecommerce.ecommerceserver.services.MapValidationErrorService;
@@ -18,6 +19,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.UUID;
 
 import static ecommerce.ecommerceserver.security.SecurityConstants.TOKEN_PREFIX;
@@ -66,6 +68,16 @@ public class ApplicationUserController {
         ApplicationUser newUser = applicationUserService.saveUser(user);
 
         return new ResponseEntity<ApplicationUser>(newUser, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/profile")
+    public ResponseEntity<ApplicationUser> getUserByName(Principal principal){
+        return new ResponseEntity<>(applicationUserService.getUserByUsername(principal.getName()),HttpStatus.OK);
+    }
+
+    @PostMapping    ("/update")
+    public ResponseEntity<ApplicationUser> updateUser(Principal principal, @RequestBody UserUpdateRequest userUpdateRequest){
+        return new ResponseEntity<>(applicationUserService.updateUser(principal.getName(),userUpdateRequest),HttpStatus.OK);
     }
 
 }
